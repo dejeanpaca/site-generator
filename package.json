@@ -1,0 +1,28 @@
+{
+  "name": "site",
+  "version": "1.0.0",
+  "description": "Code for my own personal site with a minimalistic framework.",
+  "main": "index.js",
+  "dependencies": {
+    "jshint": "^2.10.2"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "http-server": "^0.11.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run open",
+    "open": "concurrently \"http-server -a localhost -p 1234\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dejeanpaca/site.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dejeanpaca/site/issues"
+  },
+  "homepage": "https://github.com/dejeanpaca/site#readme"
+}

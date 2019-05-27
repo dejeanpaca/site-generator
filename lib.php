@@ -35,7 +35,7 @@ function echoln($what) {
  * - Src:/home/test ,Dst:/home/test2 ,Result:/home/test2/** -> if source was directoy copy it and its content to dest with test2 as name
  * - Src:/home/test/ ,Dst:/home/test2 ,Result:->/home/test2/** if source was directoy copy it and its content to dest with test2 as name
  * @todo
- *     - Should have rollback technique so it can undo the copy when it wasn't successful
+ *  - Should have rollback technique so it can undo the copy when it wasn't successful
  *  - Auto destination technique should be possible to turn off
  *  - Supporting callback function
  *  - May prevent some issues on shared enviroments : http://us3.php.net/umask
@@ -112,4 +112,14 @@ function smartCopy($source, $dest, $options=array('folderPermission'=>0755,'file
     }
 
     return $result;
+}
+
+function rmTree($dir) {
+    $files = array_diff(scandir($dir), array('.','..'));
+
+    foreach ($files as $file) {
+        (is_dir("$dir/$file")) ? rmTree("$dir/$file") : unlink("$dir/$file");
+    }
+
+    return rmdir($dir);
 }

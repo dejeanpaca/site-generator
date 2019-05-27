@@ -12,8 +12,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run open",
-    "open": "concurrently \"http-server -a localhost -p 1234\""
+    "start": "npm run open output",
+    "open": "concurrently \"http-server output -a localhost -p 1234\""
   },
   "repository": {
     "type": "git",

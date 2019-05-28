@@ -1,3 +1,3 @@
 <?php
 
-add_post('Start', 'start.html');
+Posts::add('Start', 'start.html');

@@ -2,7 +2,6 @@
 
 class Post
 {
-    public static $list = [];
     public static $template = "";
 
     public $title = '';
@@ -26,6 +25,7 @@ class Post
             $post = substr(self::$template, 0);
             $fn = $target . 'posts' . DIRECTORY_SEPARATOR . $this->source;
 
+            $post = str_replace('__HEADER__', Header::$content, $post);
             $post = str_replace('__TITLE__', $this->title, $post);
             $post = str_replace('__CONTENT__', $this->content, $post);
 
@@ -36,9 +36,11 @@ class Post
                 writeln('Failed to create file: ' . $fn);
 
             return $ok;
+        } else {
+            writeln("Post has no content: " . $this->source);
+            // if no content, we'll consider it generated
+            return true;
         }
-
-        return false;
     }
 
     public static function LoadTemplate() {
@@ -46,12 +48,4 @@ class Post
 
         return self::$template != null;
     }
-}
-
-function add_post($title, $source) {
-    $post = new Post();
-    $post->title = $title;
-    $post->source = $source;
-
-    array_push(Post::$list, $post);
 }

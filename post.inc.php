@@ -3,17 +3,16 @@
 class Post
 {
     public static $template = "";
+    public const TEMPLATE_FILE = 'post_template.html';
 
     public $title = '';
     public $source = '';
+    public $date = null;
     public $content = '';
 
     public function Load() {
         $fn = 'posts' . DIRECTORY_SEPARATOR . $this->source;
-        $this->content = @file_get_contents($fn);
-
-        if($this->content == null)
-            writeln('Failed to load: ' . $fn);
+        $this->content = load_file($fn, false);
 
         return $this->content != null;
     }
@@ -22,18 +21,19 @@ class Post
         global $target;
 
         if($this->content) {
-            $post = substr(self::$template, 0);
             $fn = $target . 'posts' . DIRECTORY_SEPARATOR . $this->source;
 
-            $post = str_replace('__HEADER__', Header::$content, $post);
+            // skip if we're linking to an existing file
+            if(file_exists($fn))
+                return true;
+
+            $post = substr(self::$template, 0);
+
+            $post = Common::Inject($post);
             $post = str_replace('__TITLE__', $this->title, $post);
             $post = str_replace('__CONTENT__', $this->content, $post);
 
-
-            $ok = @file_put_contents($fn, $post);
-
-            if(!$ok)
-                writeln('Failed to create file: ' . $fn);
+            $ok = write_file($fn, $post, false);
 
             return $ok;
         } else {
@@ -43,8 +43,15 @@ class Post
         }
     }
 
+    public function getDate() {
+        if($this->date)
+            return $this->date;
+        else
+            return '';
+    }
+
     public static function LoadTemplate() {
-        self::$template = @file_get_contents('post_template.html');
+        self::$template = load_file(self::TEMPLATE_FILE);
 
         return self::$template != null;
     }

@@ -4,12 +4,30 @@ function fail($what) {
     die($what);
 }
 
-function load_file($fn) {
+function load_file($fn, $fail = true) {
     $content = @file_get_contents($fn);
 
     if(!$content) {
-        fail('Could not read: ' . $fn);
-    }
+        if($fail)
+            fail('Could not read: ' . $fn);
+        else
+            writeln('Could not read: ' . $fn);
+    } else
+        writeln('Read: ' . $fn);
 
     return $content;
+}
+
+function write_file($fn, $contents, $fail = true) {
+    if(!@file_put_contents($fn, $contents)) {
+        if($fail)
+            fail('Failed to write: ' . $fn);
+        else
+            writeln('Failed to write: ' . $fn);
+
+        return false;
+    } else
+        writeln('Written: ' . $fn);
+
+    return true;
 }

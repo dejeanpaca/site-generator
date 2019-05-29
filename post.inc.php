@@ -11,17 +11,15 @@ class Post
     public $content = '';
 
     public function Load() {
-        $fn = 'posts' . DIRECTORY_SEPARATOR . $this->source;
+        $fn = Common::$source . 'posts' . DIRECTORY_SEPARATOR . $this->source;
         $this->content = load_file($fn, false);
 
         return $this->content != null;
     }
 
     public function Generate() {
-        global $target;
-
         if($this->content) {
-            $fn = $target . 'posts' . DIRECTORY_SEPARATOR . $this->source;
+            $fn = Common::$target . 'posts' . DIRECTORY_SEPARATOR . $this->source;
 
             // skip if we're linking to an existing file
             if(file_exists($fn))
@@ -51,7 +49,7 @@ class Post
     }
 
     public static function LoadTemplate() {
-        self::$template = load_file(self::TEMPLATE_FILE);
+        self::$template = load_file(Common::$source . self::TEMPLATE_FILE);
 
         return self::$template != null;
     }

@@ -7,7 +7,7 @@ require_once __DIR__ . '/css.inc.php';
 require_once __DIR__ . '/common.inc.php';
 require_once __DIR__ . '/post.inc.php';
 require_once __DIR__ . '/posts.inc.php';
-require_once __DIR__ . '/posts/list.inc.php';
+require_once __DIR__ . '/site/generator.inc.php';
 
 if(!is_cli()) {
    die();
@@ -18,9 +18,6 @@ const INDEX_FILE = 'index.html';
 
 writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 
-$target = 'output' . DIRECTORY_SEPARATOR;
-
-$copy_list = ['css', 'fonts', 'js'];
 $index = "";
 $header = "";
 $entry_template = "";
@@ -31,28 +28,30 @@ writeln("Generating site ...");
 
 Post::LoadTemplate();
 
-if(is_dir($target)) {
-    if(!rmTree($target)) {
+if(is_dir(Common::$target)) {
+    if(!rmTree(Common::$target)) {
         fail('Could not remove existing output directory');
     }
 }
 
-if(!mkdir($target)) {
+if(!mkdir(Common::$target)) {
     fail('Could not create output directory');
 }
 
-if(!mkdir($target . 'posts')) {
+if(!mkdir(Common::$target . 'posts')) {
     fail('Could not generate posts directory in output');
 }
 
-foreach ($copy_list as $what) {
-    if(!smartCopy($what, $target . $what)) {
-        fail('Could not copy: ' . $what);
+foreach (Common::$copy_list as $what) {
+    $source = Common::$source . $what;
+
+    if(!smartCopy($source, Common::$target . $what)) {
+        fail('Could not copy: ' . $source);
     }
 }
 
-$index = load_file(INDEX_FILE);
-$entry_template = load_file(POST_ENTRY_TEMPLATE_FILE);
+$index = load_file(Common::$source . INDEX_FILE);
+$entry_template = load_file(Common::$source . POST_ENTRY_TEMPLATE_FILE);
 Header::Load();
 CSS::Load();
 
@@ -98,6 +97,6 @@ order_posts('generate_post');
 $index = Common::Inject($index);
 $index = str_replace('__CONTENT__', $put_content, $index);
 
-write_file($target . INDEX_FILE, $index);
+write_file(Common::$target . INDEX_FILE, $index);
 
 writeln('Done');

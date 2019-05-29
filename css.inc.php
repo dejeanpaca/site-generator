@@ -8,7 +8,7 @@ class CSS
 
     public static function Load() {
         foreach(self::$list as $css) {
-            $content = load_file('inline_css' . DIRECTORY_SEPARATOR . $css);
+            $content = load_file(Common::$source . 'inline_css' . DIRECTORY_SEPARATOR . $css);
 
             self::$content = self::$content . $content;
         }

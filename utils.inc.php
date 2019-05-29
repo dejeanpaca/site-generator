@@ -18,6 +18,13 @@ function load_file($fn, $fail = true) {
     return $content;
 }
 
+function load_file_optional($fn, $fail = true) {
+    if(file_exists($fn))
+        return load_file($fn);
+
+    return "";
+}
+
 function write_file($fn, $contents, $fail = true) {
     if(!@file_put_contents($fn, $contents)) {
         if($fail)

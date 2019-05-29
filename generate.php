@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/lib.php';
 require_once __DIR__ . '/utils.inc.php';
-require_once __DIR__ . '/header.inc.php';
 require_once __DIR__ . '/css.inc.php';
 require_once __DIR__ . '/common.inc.php';
 require_once __DIR__ . '/post.inc.php';
@@ -19,7 +18,6 @@ const INDEX_FILE = 'index.html';
 writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 
 $index = "";
-$header = "";
 $entry_template = "";
 $put_content = "";
 $css_content = "";
@@ -27,6 +25,8 @@ $css_content = "";
 writeln("Generating site ...");
 
 Post::LoadTemplate();
+Common::Load();
+CSS::Load();
 
 if(is_dir(Common::$target)) {
     if(!rmTree(Common::$target)) {
@@ -52,8 +52,6 @@ foreach (Common::$copy_list as $what) {
 
 $index = load_file(Common::$source . INDEX_FILE);
 $entry_template = load_file(Common::$source . POST_ENTRY_TEMPLATE_FILE);
-Header::Load();
-CSS::Load();
 
 function load_post($post, $post_index) {
     $post->Load();

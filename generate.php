@@ -13,11 +13,10 @@ if(!is_cli()) {
 }
 
 const POST_ENTRY_TEMPLATE_FILE = 'post_entry_template.html';
-const INDEX_FILE = 'index.html';
 
 writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 
-$index = "";
+$structure = ['output', 'output/posts'];
 $entry_template = "";
 $put_content = "";
 $css_content = "";
@@ -28,18 +27,28 @@ Post::LoadTemplate();
 Common::Load();
 CSS::Load();
 
-if(is_dir(Common::$target)) {
-    if(!rmTree(Common::$target)) {
-        fail('Could not remove existing output directory');
+function create_directory($target) {
+    if(is_dir($target)) {
+        if(!rmTree($target)) {
+            fail('Could not remove existing ' . $target . ' directory');
+        }
+    }
+
+    if(!mkdir($target)) {
+        fail('Could not create ' . $target . ' directory');
     }
 }
 
-if(!mkdir(Common::$target)) {
-    fail('Could not create output directory');
+foreach ($structure as $folder) {
+    create_directory($folder);
 }
 
-if(!mkdir(Common::$target . 'posts')) {
-    fail('Could not generate posts directory in output');
+$target = Common::$target . 'posts';
+
+if(!is_dir($target)) {
+    if(!mkdir($target)) {
+        fail('Could not generate posts directory in output');
+    }
 }
 
 foreach (Common::$copy_list as $what) {
@@ -50,7 +59,6 @@ foreach (Common::$copy_list as $what) {
     }
 }
 
-$index = load_file(Common::$source . INDEX_FILE);
 $entry_template = load_file(Common::$source . POST_ENTRY_TEMPLATE_FILE);
 
 function load_post($post, $post_index) {
@@ -92,9 +100,18 @@ function order_posts($callback) {
 order_posts('load_post');
 order_posts('generate_post');
 
-$index = Common::Inject($index);
-$index = str_replace('__CONTENT__', $put_content, $index);
+function generate_page($page) {
+    global $put_content;
+    $content = load_file(Common::$source . $page);
 
-write_file(Common::$target . INDEX_FILE, $index);
+    $content = Common::Inject($content);
+    $content = str_replace('__CONTENT__', $put_content, $content);
+
+    write_file(Common::$target . $page, $content);
+}
+
+foreach (Common::$pages as $page) {
+    generate_page($page);
+}
 
 writeln('Done');

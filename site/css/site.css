@@ -1,12 +1,10 @@
-@import url('/fonts/fira_sans/firasans.css');
-
 body {
-    font-family: 'Fira Sans', sans-serif;
-    line-height: 1.6;
+    font-family: Monospace, Courier;
+    line-height: 1.2;
     color: #FFF;
     max-width: 40rem;
     padding: 2rem;
-    margin: auto;
+    margin: 0 auto;
     background: #3a3a3a;
 }
 
@@ -23,7 +21,11 @@ h1, h2, h3, h4, h5, h6, strong {
     color: #BBB;
 }
 
-
 .entry-date {
     color: #FFF;
+}
+
+.header-link {
+    margin-left: 0.3em;
+    margin-right: 0.3em;
 }

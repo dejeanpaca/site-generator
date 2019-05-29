@@ -8,7 +8,7 @@ class Replacer
 
     public function Load() {
         if($this->file)
-            $this->$content = load_file_optional(Common::$source . $this->file);
+            $this->content = load_file(Common::$source . $this->file);
     }
 
     public function Inject($string) {
@@ -20,6 +20,7 @@ class Common
 {
     public static $source = 'site' . DIRECTORY_SEPARATOR;
     public static $target = 'output' . DIRECTORY_SEPARATOR;
+    public static $pages = ['index.html'];
     public static $copy_list = [];
     public static $replacers = [];
 

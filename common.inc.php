@@ -18,9 +18,11 @@ class Replacer
 
 class Common
 {
+    public const POST_LIST_MARKER = '__POST_LIST__';
+
     public static $source = 'site' . DIRECTORY_SEPARATOR;
     public static $target = 'output' . DIRECTORY_SEPARATOR;
-    public static $pages = ['index.html'];
+    public static $post_list = '';
     public static $copy_list = [];
     public static $replacers = [];
 
@@ -31,7 +33,7 @@ class Common
             $string = $replacer->Inject($string);
         }
 
-        return $string;
+        return str_replace(self::POST_LIST_MARKER, self::$post_list, $string);
     }
 
     public static function Add($marker, $file) {

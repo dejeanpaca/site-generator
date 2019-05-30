@@ -4,8 +4,11 @@ require_once __DIR__ . '/lib.php';
 require_once __DIR__ . '/utils.inc.php';
 require_once __DIR__ . '/css.inc.php';
 require_once __DIR__ . '/common.inc.php';
+require_once __DIR__ . '/page_type.inc.php';
 require_once __DIR__ . '/post.inc.php';
-require_once __DIR__ . '/posts.inc.php';
+require_once __DIR__ . '/page.inc.php';
+require_once __DIR__ . '/index.inc.php';
+require_once __DIR__ . '/pages.inc.php';
 require_once __DIR__ . '/site/generator.inc.php';
 
 if(!is_cli()) {
@@ -18,12 +21,14 @@ writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 
 $structure = ['output', 'output/posts'];
 $entry_template = "";
-$put_content = "";
 $css_content = "";
 
 writeln("Generating site ...");
 
-Post::LoadTemplate();
+$postType->LoadTemplate();
+$pageType->LoadTemplate();
+$indexType->LoadTemplate();
+
 Common::Load();
 CSS::Load();
 
@@ -66,19 +71,20 @@ function load_post($post, $post_index) {
 }
 
 function generate_post($post, $post_index) {
-    global $put_content;
     global $entry_template;
 
     if($post->Generate()) {
         writeln('Generated: (' . $post_index . ') ' . $post->source);
 
-        $entry = substr($entry_template, 0);
+        if(get_class($post) == 'Post') {
+            $entry = substr($entry_template, 0);
 
-        $entry = str_replace('__DATE__', $post->getDate(), $entry);
-        $entry = str_replace('__HREF__', "/posts/" . $post->source, $entry);
-        $entry = str_replace('__TITLE__', $post->title, $entry);
+            $entry = str_replace('__DATE__', $post->getDate(), $entry);
+            $entry = str_replace('__HREF__', "/posts/" . $post->source, $entry);
+            $entry = str_replace('__TITLE__', $post->title, $entry);
 
-        $put_content = $entry . $put_content;
+            Common::$post_list = $entry . Common::$post_list;
+        }
     } else {
         fail('Could not generate post: ' . $post->source);
     }
@@ -88,7 +94,7 @@ function order_posts($callback) {
     $post = null;
     $post_index = 1;
 
-    foreach(Posts::$list as $post) {
+    foreach(Pages::$list as $post) {
         if($callback) {
             call_user_func($callback, $post, $post_index);
         }
@@ -99,19 +105,5 @@ function order_posts($callback) {
 
 order_posts('load_post');
 order_posts('generate_post');
-
-function generate_page($page) {
-    global $put_content;
-    $content = load_file(Common::$source . $page);
-
-    $content = Common::Inject($content);
-    $content = str_replace('__CONTENT__', $put_content, $content);
-
-    write_file(Common::$target . $page, $content);
-}
-
-foreach (Common::$pages as $page) {
-    generate_page($page);
-}
 
 writeln('Done');

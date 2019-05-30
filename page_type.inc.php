@@ -2,9 +2,9 @@
 
 class PageType
 {
-    public $templateFile = 'post_template.html';
-    public $source_dir = 'posts/';
-    public $output_dir = 'posts/';
+    public $templateFile = 'page_template.html';
+    public $source_dir = '';
+    public $output_dir = '';
     public $template = "";
 
     public function LoadTemplate() {

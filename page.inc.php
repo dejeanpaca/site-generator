@@ -34,6 +34,7 @@ class Page
     public function Inject($string) {
         $string = Common::inject($string);
 
+        $string = str_replace('__DATE__', $this->getDate(), $string);
         return str_replace('__TITLE__', $this->title, $string);
     }
 

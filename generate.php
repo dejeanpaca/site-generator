@@ -9,7 +9,6 @@ require_once __DIR__ . '/page.inc.php';
 require_once __DIR__ . '/post.inc.php';
 require_once __DIR__ . '/index.inc.php';
 require_once __DIR__ . '/pages.inc.php';
-require_once __DIR__ . '/site/generator.inc.php';
 
 if(!is_cli()) {
    die();
@@ -19,15 +18,23 @@ const POST_ENTRY_TEMPLATE_FILE = 'post_entry_template.html';
 
 writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 
+if(!is_dir('site')) {
+    fail('No site folder found. You can copy over existing `site-template` as `site` and work from there');
+}
+
+writeln("Generating site ...");
+
+require_once __DIR__ . '/site/generator.inc.php';
+
 $structure = ['output', 'output/posts'];
 $entry_template = "";
 $css_content = "";
 
-writeln("Generating site ...");
-
 $postType->LoadTemplate();
 $pageType->LoadTemplate();
 $indexType->LoadTemplate();
+
+$target = Common::$target . 'posts';
 
 Common::Load();
 CSS::Load();
@@ -44,15 +51,9 @@ function create_directory($target) {
     }
 }
 
-if(!is_dir('site')) {
-    fail('No site folder found. You can copy over existing `site-template` as `site` and work from there');
-}
-
 foreach ($structure as $folder) {
     create_directory($folder);
 }
-
-$target = Common::$target . 'posts';
 
 if(!is_dir($target)) {
     if(!mkdir($target)) {

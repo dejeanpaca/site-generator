@@ -44,6 +44,10 @@ function create_directory($target) {
     }
 }
 
+if(!is_dir('site')) {
+    fail('No site folder found. You can copy over existing `site-template` as `site` and work from there');
+}
+
 foreach ($structure as $folder) {
     create_directory($folder);
 }

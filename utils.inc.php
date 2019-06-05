@@ -1,7 +1,7 @@
 <?php
 
 function fail($what) {
-    die($what);
+    die('ERROR: ' . $what . PHP_EOL);
 }
 
 function load_file($fn, $fail = true) {

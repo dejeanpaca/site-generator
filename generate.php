@@ -18,15 +18,19 @@ const POST_ENTRY_TEMPLATE_FILE = 'post_entry_template.html';
 
 writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 
-if(!is_dir('site')) {
+if(!is_dir(Common::$source)) {
     fail('No site folder found. You can copy over existing `site-template` as `site` and work from there');
+}
+
+if(!is_file(Common::$source . 'generator.inc.php' )) {
+    fail('No site definition file found (generator.inc.php).');
 }
 
 writeln("Generating site ...");
 
-require_once __DIR__ . '/site/generator.inc.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . Common::$source . 'generator.inc.php';
 
-$structure = ['output', 'output/posts'];
+$structure = [Common::$target, Common::$target . 'posts'];
 $entry_template = "";
 $css_content = "";
 

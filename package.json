@@ -1,7 +1,7 @@
 {
-  "name": "site",
+  "name": "site-generator",
   "version": "1.0.0",
-  "description": "Code for my own personal site with a minimalistic framework.",
+  "description": "Minimalistic static site generator",
   "main": "index.js",
   "dependencies": {
     "jshint": "^2.10.2"
@@ -11,18 +11,16 @@
     "http-server": "^0.11.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run open output",
     "open": "concurrently \"http-server output -a localhost -p 1234\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dejeanpaca/site.git"
+    "url": "git+https://github.com/dejeanpaca/site-generator.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dejeanpaca/site/issues"
+    "url": "https://github.com/dejeanpaca/site-generator/issues"
   },
-  "homepage": "https://github.com/dejeanpaca/site#readme"
+  "homepage": "https://github.com/dejeanpaca/site-generator#readme"
 }

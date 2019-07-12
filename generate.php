@@ -1,14 +1,14 @@
 <?php
 
-require_once __DIR__ . '/lib.php';
-require_once __DIR__ . '/utils.inc.php';
-require_once __DIR__ . '/css.inc.php';
-require_once __DIR__ . '/common.inc.php';
-require_once __DIR__ . '/page_type.inc.php';
-require_once __DIR__ . '/page.inc.php';
-require_once __DIR__ . '/post.inc.php';
-require_once __DIR__ . '/index.inc.php';
-require_once __DIR__ . '/pages.inc.php';
+require_once __DIR__ . '/generator/lib.php';
+require_once __DIR__ . '/generator/utils.inc.php';
+require_once __DIR__ . '/generator/css.inc.php';
+require_once __DIR__ . '/generator/common.inc.php';
+require_once __DIR__ . '/generator/page_type.inc.php';
+require_once __DIR__ . '/generator/page.inc.php';
+require_once __DIR__ . '/generator/post.inc.php';
+require_once __DIR__ . '/generator/index.inc.php';
+require_once __DIR__ . '/generator/pages.inc.php';
 
 if(!is_cli()) {
    die();
@@ -30,15 +30,13 @@ writeln("Generating site ...");
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . Common::$source . 'generator.inc.php';
 
-$structure = [Common::$target, Common::$target . 'posts'];
+$structure = [Common::$target];
 $entry_template = "";
 $css_content = "";
 
 $postType->LoadTemplate();
 $pageType->LoadTemplate();
 $indexType->LoadTemplate();
-
-$target = Common::$target . 'posts';
 
 Common::Load();
 CSS::Load();
@@ -59,9 +57,17 @@ foreach ($structure as $folder) {
     create_directory($folder);
 }
 
-if(!is_dir($target)) {
-    if(!mkdir($target)) {
-        fail('Could not generate posts directory in output');
+foreach (PageType::$types as $type) {
+    if($type->output_dir) {
+        $target = Common::$target . $type->output_dir;
+
+        if(!is_dir($target)) {
+            if(!mkdir($target)) {
+                fail('Could not generate ' . $target . ' directory in output');
+            } else {
+                writeln('Created ' . $target . ' directory in output');
+            }
+        }
     }
 }
 

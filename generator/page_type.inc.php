@@ -15,7 +15,7 @@ class PageType
     }
 
     public function LoadTemplate() {
-        $this->template = load_file(Common::$source . $this->templateFile);
+        $this->template = load_file(Common::$source . Replacer::TEMPLATE_SOURCE . $this->templateFile);
 
         return $this->template != null;
     }

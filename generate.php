@@ -14,7 +14,7 @@ if(!is_cli()) {
    die();
 }
 
-const POST_ENTRY_TEMPLATE_FILE = 'post_entry_template.html';
+const POST_ENTRY_TEMPLATE_FILE = Replacer::TEMPLATE_SOURCE . 'post_entry_template.html';
 
 writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 

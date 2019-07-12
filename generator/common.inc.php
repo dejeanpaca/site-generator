@@ -2,13 +2,15 @@
 
 class Replacer
 {
+    public const TEMPLATE_SOURCE = 'templates' . DIRECTORY_SEPARATOR;
+
     public $marker = '';
     public $file = '';
     public $content = '';
 
     public function Load() {
         if($this->file)
-            $this->content = load_file(Common::$source . $this->file);
+            $this->content = load_file(Common::$source . self::TEMPLATE_SOURCE . $this->file);
     }
 
     public function Inject($string) {

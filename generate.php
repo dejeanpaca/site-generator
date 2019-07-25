@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/generator/lib.php';
 require_once __DIR__ . '/generator/utils.inc.php';
 require_once __DIR__ . '/generator/css.inc.php';
@@ -31,11 +32,9 @@ $structure = [Common::$target];
 $entry_template = "";
 $css_content = "";
 
-$postType->LoadTemplate();
-$pageType->LoadTemplate();
-$indexType->LoadTemplate();
-$indexType->LoadTemplate();
-$indexType->LoadTemplate();
+foreach(PageType::$types as $type) {
+    $type->LoadTemplate();
+}
 
 Common::Load();
 CSS::Load();

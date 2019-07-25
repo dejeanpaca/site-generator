@@ -5,9 +5,6 @@ require_once __DIR__ . '/generator/utils.inc.php';
 require_once __DIR__ . '/generator/css.inc.php';
 require_once __DIR__ . '/generator/common.inc.php';
 require_once __DIR__ . '/generator/page_type.inc.php';
-require_once __DIR__ . '/generator/page.inc.php';
-require_once __DIR__ . '/generator/post.inc.php';
-require_once __DIR__ . '/generator/index.inc.php';
 require_once __DIR__ . '/generator/pages.inc.php';
 
 if(!is_cli()) {
@@ -36,6 +33,8 @@ $css_content = "";
 
 $postType->LoadTemplate();
 $pageType->LoadTemplate();
+$indexType->LoadTemplate();
+$indexType->LoadTemplate();
 $indexType->LoadTemplate();
 
 Common::Load();

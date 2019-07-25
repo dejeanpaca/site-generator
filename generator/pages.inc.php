@@ -1,5 +1,9 @@
 <?php
 
+require_once __DIR__ . '/page.inc.php';
+require_once __DIR__ . '/post.inc.php';
+require_once __DIR__ . '/index.inc.php';
+
 class Pages
 {
     public static $list = [];

@@ -1,4 +1,3 @@
-
 <?php
 
 $pageType = new PageType();
@@ -20,6 +19,7 @@ class Page
 
     public function getFn($base, $dir) {
         $fn = $base . $dir . $this->source;
+
         return $fn;
     }
 
@@ -48,9 +48,25 @@ class Page
 
             $post = substr($this->type->template, 0);
 
-            $post = str_replace('__CONTENT__', $this->content, $post);
+            $post = str_replace('__CONTENT__', $this->getContent(), $post);
             $post = $this->Inject($post);
 
+            // perform additional processing (such as converting markdown to html)
+            $post = $this->process($post);
+
+            // check file extension to be html
+
+            $path_info = pathinfo($fn);
+            $ext = $path_info['extension'];
+
+            if($ext != 'html') {
+                $oldFn = $fn;
+
+                $fn = $path_info['dirname'] + $path_info['basename'] + '.html';
+                writeln('Renamed ' . $fn . ' to ' . $fn);
+            }
+
+            // done, write file
             $ok = write_file($fn, $post, false);
 
             return $ok;
@@ -66,5 +82,15 @@ class Page
             return $this->date;
         else
             return '';
+    }
+
+    // perform content conversion to html or just return $content
+    public function getContent() {
+        return $this->content;
+    }
+
+    // perform additional processing on this post (if any))
+    public function process($post) {
+        return $post;
     }
 }

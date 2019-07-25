@@ -92,8 +92,10 @@ function generate_post($post, $post_index) {
         if($post->type->post) {
             $entry = substr($entry_template, 0);
 
+            $link = $post->correctExtension($post->type->output_dir . $post->source);
+
             $entry = str_replace('__DATE__', $post->getDate(), $entry);
-            $entry = str_replace('__HREF__', "/posts/" . $post->source, $entry);
+            $entry = str_replace('__HREF__', $link, $entry);
             $entry = str_replace('__TITLE__', $post->title, $entry);
 
             Common::$post_list = $entry . Common::$post_list;

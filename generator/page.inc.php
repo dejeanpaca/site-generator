@@ -38,6 +38,21 @@ class Page
         return str_replace('__TITLE__', $this->title, $string);
     }
 
+    public function correctExtension($fn) {
+        // check file extension to be html
+
+        $path_info = pathinfo($fn);
+        $ext = $path_info['extension'];
+
+        if($ext != 'html') {
+            $oldFn = $fn;
+
+            $fn = $path_info['dirname'] . DIRECTORY_SEPARATOR . $path_info['filename'] . '.html';
+        }
+
+        return $fn;
+    }
+
     public function Generate() {
         if($this->content) {
             $fn = $this->getFn(Common::$target, $this->type->output_dir);
@@ -48,23 +63,15 @@ class Page
 
             $post = substr($this->type->template, 0);
 
-            $post = str_replace('__CONTENT__', $this->getContent(), $post);
+            $content = $this->getContent();
+
+            $post = str_replace('__CONTENT__', $content, $post);
             $post = $this->Inject($post);
 
             // perform additional processing (such as converting markdown to html)
             $post = $this->process($post);
 
-            // check file extension to be html
-
-            $path_info = pathinfo($fn);
-            $ext = $path_info['extension'];
-
-            if($ext != 'html') {
-                $oldFn = $fn;
-
-                $fn = $path_info['dirname'] . DIRECTORY_SEPARATOR . $path_info['filename'] . '.html';
-                writeln('Renamed ' . $fn . ' to ' . $fn);
-            }
+            $fn = $this->correctExtension($fn);
 
             // done, write file
             $ok = write_file($fn, $post, false);

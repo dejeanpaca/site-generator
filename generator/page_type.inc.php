@@ -7,6 +7,9 @@ class PageType
     public $output_dir = 'pages' . DIRECTORY_SEPARATOR;
     public $template = "";
 
+    // is this page type a post
+    public $post = false;
+
     /** @var PageType[] */
     public static $types = [];
 

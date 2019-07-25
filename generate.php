@@ -89,7 +89,7 @@ function generate_post($post, $post_index) {
     if($post->Generate()) {
         writeln('Generated: (' . $post_index . ') ' . $post->source);
 
-        if(get_class($post) == 'Post') {
+        if($post->post) {
             $entry = substr($entry_template, 0);
 
             $entry = str_replace('__DATE__', $post->getDate(), $entry);

@@ -2,3 +2,5 @@ node_modules
 output
 site
 upload.sh
+composer.lock
+vendor

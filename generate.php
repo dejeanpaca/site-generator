@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+if(is_dir('vendor'))
+    require_once __DIR__ . '/vendor/autoload.php';
+
 require_once __DIR__ . '/generator/lib.php';
 require_once __DIR__ . '/generator/utils.inc.php';
 require_once __DIR__ . '/generator/css.inc.php';

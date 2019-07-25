@@ -62,7 +62,7 @@ class Page
             if($ext != 'html') {
                 $oldFn = $fn;
 
-                $fn = $path_info['dirname'] + $path_info['basename'] + '.html';
+                $fn = $path_info['dirname'] . DIRECTORY_SEPARATOR . $path_info['filename'] . '.html';
                 writeln('Renamed ' . $fn . ' to ' . $fn);
             }
 

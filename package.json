@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "Minimalistic static site generator",
   "main": "index.js",
-  "dependencies": {
-    "jshint": "^2.10.2"
-  },
   "devDependencies": {
+    "jshint": "^2.10.2",
     "concurrently": "^4.1.1",
-    "http-server": "^0.11.1"
+    "http-server": "^0.11.1",
+    "lodash": ">=4.17.13"
   },
   "scripts": {
     "open": "concurrently \"http-server output -a localhost -p 1234\""

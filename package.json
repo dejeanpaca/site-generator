@@ -4,10 +4,10 @@
   "description": "Minimalistic static site generator",
   "main": "index.js",
   "devDependencies": {
-    "jshint": "^2.10.2",
     "concurrently": "^4.1.1",
     "http-server": "^0.11.1",
-    "lodash": ">=4.17.13"
+    "jshint": "^2.10.2",
+    "lodash": "^4.17.15"
   },
   "scripts": {
     "open": "concurrently \"http-server output -a localhost -p 1234\""

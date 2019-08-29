@@ -8,7 +8,7 @@ class Pages
 {
     public static $list = [];
 
-    function add_post($title, $source, $date = null) {
+    public static function add_post($title, $source, $date = null) {
         $page = new Post();
         $page->title = $title;
         $page->source = $source;
@@ -19,7 +19,7 @@ class Pages
         array_push(self::$list, $page);
     }
 
-    function add_page($title, $source) {
+    public static function add_page($title, $source) {
         $page = new Page();
         $page->title = $title;
         $page->source = $source;
@@ -27,7 +27,7 @@ class Pages
         array_push(self::$list, $page);
     }
 
-    function add_index($title, $source) {
+    public static function add_index($title, $source) {
         $page = new IndexPage();
         $page->title = $title;
         $page->source = $source;

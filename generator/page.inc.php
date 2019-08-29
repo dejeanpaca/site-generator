@@ -12,6 +12,7 @@ class Page
     public $source = '';
     public $content = '';
 
+    /** @var PageType */
     public $type = null;
 
     function __construct() {
@@ -39,8 +40,8 @@ class Page
         $start = strlen('<!--');
 
         // we have a comment
-        if(substr($this->content, 0, $start == '<!--')) {
-            $pos = strpos($this->content, '--!>');
+        if(substr($this->content, 0, $start) == '<!--') {
+            $pos = strpos($this->content, '-->');
 
             if($pos !== FALSE) {
                 $descriptor = substr($this->content, $start, $pos - $start);
@@ -48,10 +49,29 @@ class Page
                 $lines = explode("\n", $descriptor);
                 foreach($lines as $line) {
                     $line = trim($line);
-                    writeln($line);
+                    $kv = explode(': ', $line, 2);
+
+                    if(count($kv) == 2) {
+                        $key = strtolower(trim($kv[0]));
+                        $value = trim($kv[1]);
+
+                        if($key == '@title') {
+                            $this->title = $value;
+                        } else if($key == '@summary') {
+                            $this->summary = $value;
+                        } else if($key == '@date') {
+                            $this->date = $value;
+                        }
+                    }
                 }
+
+                $this->content = substr($this->content, $pos + 4, strlen($this->content) - $pos - 4);
+
+                return;
             }
         }
+
+        writeln('No or invalid descriptor in: ' . $this->type->source_dir . $this->source);
     }
 
     public function Inject($string) {

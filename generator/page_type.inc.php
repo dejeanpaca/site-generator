@@ -27,6 +27,37 @@ class PageType
 
     /** load all pages of this type */
     public function Load() {
+        $source = Common::$source . $this->source_dir;
+
+        $path_info = pathinfo($this->templateFile);
+        $required_ext = $path_info['extension'];
+
+        $files = scandir($source);
+
+        if($files) {
+            foreach($files as $file) {
+                if($file == '.' || $file == '..')
+                    continue;
+
+                $path_info = pathinfo($file);
+                $ext = $path_info['extension'];
+
+                $fn = $source . $file;
+
+                if($ext != $required_ext)
+                    continue;
+
+                // do not add if already added to the list
+                if(Pages::find($fn))
+                    continue;
+
+
+                $page = new $this->class;
+                $page->source = $file;
+
+                Pages::add($page);
+            }
+        }
     }
 }
 

@@ -53,6 +53,12 @@ foreach (Module::$modules as $module) {
     $module->Load();
 }
 
+foreach(PageType::$types as $type) {
+    $type->Load();
+}
+
+Pages::add_index('index.html');
+
 function create_directory($target) {
     if(is_dir($target)) {
         if(!rmTree($target)) {

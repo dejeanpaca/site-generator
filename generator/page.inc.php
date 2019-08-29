@@ -1,12 +1,15 @@
 <?php
 
 $pageType = new PageType();
+$pageType->class = '\Page';
 
 class Page
 {
     public $title = '';
-    public $source = '';
+    public $summary = '';
     public $date = null;
+
+    public $source = '';
     public $content = '';
 
     public $type = null;
@@ -27,8 +30,28 @@ class Page
         $fn = $this->getFn(Common::$source, $this->type->source_dir);
 
         $this->content = load_file($fn, false);
+        $this->getDescriptor();
 
         return $this->content != null;
+    }
+
+    public function getDescriptor() {
+        $start = strlen('<!--');
+
+        // we have a comment
+        if(substr($this->content, 0, $start == '<!--')) {
+            $pos = strpos($this->content, '--!>');
+
+            if($pos !== FALSE) {
+                $descriptor = substr($this->content, $start, $pos - $start);
+
+                $lines = explode("\n", $descriptor);
+                foreach($lines as $line) {
+                    $line = trim($line);
+                    writeln($line);
+                }
+            }
+        }
     }
 
     public function Inject($string) {

@@ -28,8 +28,13 @@ class Common
     public static $copy_list = [];
     public static $replacers = [];
 
+    // should we generate an RSS for this site posts
+    public static $generate_rss = False;
+
     public static function Inject($string) {
-        $string = CSS::inject($string);
+        foreach(Module::$modules as $module) {
+            $string = $module->inject($string);
+        }
 
         foreach (self::$replacers as $replacer) {
             $string = $replacer->Inject($string);

@@ -5,7 +5,7 @@ if(is_dir('vendor'))
 
 require_once __DIR__ . '/generator/lib.php';
 require_once __DIR__ . '/generator/utils.inc.php';
-require_once __DIR__ . '/generator/css.inc.php';
+require_once __DIR__ . '/generator/module.inc.php';
 require_once __DIR__ . '/generator/common.inc.php';
 require_once __DIR__ . '/generator/page_type.inc.php';
 require_once __DIR__ . '/generator/pages.inc.php';
@@ -22,6 +22,16 @@ if(!is_dir(Common::$source)) {
     fail('No site folder found. You can copy over existing `site-template` as `site` and work from there');
 }
 
+function include_module(string $module) {
+    $fn = __DIR__ . '/generator/modules/' . $module . '.inc.php';
+
+    if (!file_exists($fn)) {
+        fail('Could not find required module ' . $module);
+    }
+
+    return $fn;
+}
+
 if(!is_file(Common::$source . 'generator.inc.php' )) {
     fail('No site definition file found (generator.inc.php).');
 }
@@ -32,14 +42,16 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . Common::$source . 'generator.inc.ph
 
 $structure = [Common::$target];
 $entry_template = "";
-$css_content = "";
 
 foreach(PageType::$types as $type) {
     $type->LoadTemplate();
 }
 
 Common::Load();
-CSS::Load();
+
+foreach (Module::$modules as $module) {
+    $module->Load();
+}
 
 function create_directory($target) {
     if(is_dir($target)) {
@@ -122,5 +134,9 @@ function order_posts($callback) {
 
 order_posts('load_post');
 order_posts('generate_post');
+
+foreach (Module::$modules as $module) {
+    $module->Done();
+}
 
 writeln('Done');

@@ -16,6 +16,9 @@ class Module
 
     }
 
+    /** Called when a post is generated
+     * @param Page post
+     */
     public function OnPost($post) {
 
     }

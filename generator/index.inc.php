@@ -1,16 +1,9 @@
 <?php
 
-$indexType = new IndexPageType();
+$indexType = new SingletonPageType();
 $indexType->templateFile = 'index_template.html';
 $indexType->output_dir = '';
 $indexType->class = '\IndexPage';
-
-class IndexPageType extends PageType
-{
-    public function Load() {
-
-    }
-}
 
 class IndexPage extends Page
 {

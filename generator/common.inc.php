@@ -7,9 +7,12 @@ class Replacer
     public $marker = '';
     public $file = '';
     public $content = '';
+    public $file_path;
 
     public function Load() {
-        if($this->file)
+        if($this->file_path)
+            $this->content = load_file($this->file_path);
+        else
             $this->content = load_file(Common::$source . self::TEMPLATE_SOURCE . $this->file);
     }
 

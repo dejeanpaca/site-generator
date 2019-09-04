@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>__FEED_TITLE__</title>
+    <link href="__FEED_LINK__"/>
+    <updated>__UPDATED_TIME__</updated>
+    <author>
+        <name>__AUTHOR_NAME__</name>
+    </author>
+    <id>urn:uuid:__UUID__</id>
+
+    __ENTRIES__
+</feed>

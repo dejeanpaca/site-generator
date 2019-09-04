@@ -27,6 +27,7 @@ class Common
     public static $post_list = '';
     public static $copy_list = [];
     public static $replacers = [];
+    public static $markers = [];
 
     // should we generate an RSS for this site posts
     public static $generate_rss = False;
@@ -34,6 +35,10 @@ class Common
     public static function Inject($string) {
         foreach(Module::$modules as $module) {
             $string = $module->inject($string);
+        }
+
+        foreach (self::$markers as $marker => $content) {
+            $string = str_replace($marker, $content, $string);
         }
 
         foreach (self::$replacers as $replacer) {
@@ -49,6 +54,10 @@ class Common
         $replacer->file = $file;
 
         array_push(self::$replacers, $replacer);
+    }
+
+    public static function AddMarker($marker, $content) {
+        self::$markers[$marker] = $content;
     }
 
     public static function Load() {

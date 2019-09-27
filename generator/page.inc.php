@@ -28,6 +28,10 @@ class Page
         self::$markers[$marker] = $content;
     }
 
+    public static function HasMarker($marker) {
+        return array_key_exists($marker, self::$markers);
+    }
+
     public function getFn($base, $dir) {
         $fn = $base . $dir . $this->source;
 

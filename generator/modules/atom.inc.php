@@ -2,10 +2,10 @@
 
 class AtomModule extends Module
 {
-    public const TEMPLATES_PATH = 'templates' + DIRECTORY_SEPARATOR + 'atom' + DIRECTORY_SEPARATOR;
+    public const TEMPLATES_PATH = 'templates' . DIRECTORY_SEPARATOR . 'atom' . DIRECTORY_SEPARATOR;
 
     /** @var AtomModule */
-    public static $atom = null;
+    public static $module;
 
     /** @var Replacer */
     public $feed_template = null;
@@ -19,14 +19,14 @@ class AtomModule extends Module
     }
 
     public function Load() {
-        $this->$feed_template = new Replacer();
-        $this->$feed_template->file_path = self::TEMPLATES_PATH + 'feed.atom';
-        $this->$entry_template = new Replacer();
-        $this->$entry_template->file_path = self::TEMPLATES_PATH + 'entry.atom';
+        $this->feed_template = new Replacer();
+        $this->feed_template->file_path = self::TEMPLATES_PATH . 'feed.atom';
+        $this->entry_template = new Replacer();
+        $this->entry_template->file_path = self::TEMPLATES_PATH . 'entry.atom';
     }
 
     public function OnPost($post) {
     }
 }
 
-AtomModule::$atom = new AtomModule();
+AtomModule::$module = new AtomModule();

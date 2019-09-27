@@ -32,9 +32,6 @@ class Common
     public static $replacers = [];
     public static $markers = [];
 
-    // should we generate an RSS for this site posts
-    public static $generate_rss = False;
-
     public static function Inject($string) {
         foreach(Module::$modules as $module) {
             $string = $module->inject($string);

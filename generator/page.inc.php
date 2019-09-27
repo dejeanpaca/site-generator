@@ -25,8 +25,6 @@ class Page
     }
 
     public function AddMarker($marker, $content) {
-        writeln('Added marker ' . $marker . ' ' . $content);
-
         $this->markers[$marker] = $content;
     }
 

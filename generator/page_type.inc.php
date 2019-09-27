@@ -16,7 +16,7 @@ class PageType
     public static $types = [];
 
     function __construct() {
-        self::$types[] = $this;
+        array_push(self::$types, $this);
     }
 
     public function LoadTemplate() {

@@ -92,14 +92,15 @@ class Page
     }
 
     public function Inject($string) {
-        $string = Common::Inject($string);
-
         // page markers
         foreach ($this->markers as $marker => $content) {
             $string = str_replace($marker, $content, $string);
         }
 
+        $string = Common::Inject($string);
+
         $string = str_replace('__DATE__', $this->getDate(), $string);
+
         return str_replace('__TITLE__', $this->title, $string);
     }
 

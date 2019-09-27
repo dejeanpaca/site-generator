@@ -1,7 +1,7 @@
 <entry>
     <title>__TITLE__</title>
     <link href="__LINK__"/>
-    <id>urn:uuid:__UUID__</id>
+    <id>urn:uuid:__FEED_UUID__</id>
     <updated>__TIME_UPDATED__</updated>
     <summary>__SUMMARY__</summary>
 </entry>

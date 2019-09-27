@@ -60,11 +60,3 @@ class PageType
         }
     }
 }
-
-class SingletonPageType extends PageType
-{
-    /** Singleton pages do not load anything */
-    public function Load() {
-
-    }
-}

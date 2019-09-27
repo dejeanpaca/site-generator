@@ -8,7 +8,8 @@ class Module
     public $name = 'unknown';
 
     public function __construct() {
-        Module::$modules[] = $this;
+        array_push(Module::$modules, $this);
+
         writeln('Using module ' . $this->name);
     }
 

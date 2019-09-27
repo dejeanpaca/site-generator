@@ -33,18 +33,20 @@ class Common
     public static $markers = [];
 
     public static function Inject($string) {
+        // module injection
         foreach(Module::$modules as $module) {
             $string = $module->inject($string);
         }
 
+        // global markers
         foreach (self::$markers as $marker => $content) {
             $string = str_replace($marker, $content, $string);
         }
 
+        // replacers
         foreach (self::$replacers as $replacer) {
             $string = $replacer->Inject($string);
         }
-
         return str_replace(self::POST_LIST_MARKER, self::$post_list, $string);
     }
 

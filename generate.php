@@ -10,17 +10,15 @@ require_once __DIR__ . '/generator/common.inc.php';
 require_once __DIR__ . '/generator/page_type.inc.php';
 require_once __DIR__ . '/generator/pages.inc.php';
 
-if(!is_cli()) {
+if(!is_cli())
    die();
-}
 
 const POST_ENTRY_TEMPLATE_FILE = Replacer::TEMPLATE_SOURCE . 'post_entry_template.html';
 
 writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 
-if(!is_dir(Common::$source)) {
+if(!is_dir(Common::$source))
     fail('No site folder found. You can copy over existing `site-template` as `site` and work from there');
-}
 
 function include_module(string $module) {
     $fn = __DIR__ . '/generator/modules/' . $module . '.inc.php';
@@ -32,9 +30,8 @@ function include_module(string $module) {
     return $fn;
 }
 
-if(!is_file(Common::$source . 'generator.inc.php' )) {
+if(!is_file(Common::$source . 'generator.inc.php' ))
     fail('No site definition file found (generator.inc.php).');
-}
 
 writeln("Generating site ...");
 

@@ -6,6 +6,8 @@ class CSS extends Module
     public static $list = [];
     public static $content = "";
 
+    public static $module = null;
+
     public function __construct() {
         $this->name = 'CSS';
 
@@ -30,4 +32,4 @@ class CSS extends Module
     }
 }
 
-$css_module = new CSS();
+CSS::$module = new CSS();

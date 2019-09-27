@@ -15,10 +15,17 @@ class Page
     /** @var PageType */
     public $type = null;
 
+    /** per page markers */
+    public $markers = [];
+
     function __construct() {
         global $pageType;
 
         $this->type = $pageType;
+    }
+
+    public static function AddMarker($marker, $content) {
+        self::$markers[$marker] = $content;
     }
 
     public function getFn($base, $dir) {
@@ -61,6 +68,16 @@ class Page
                             $this->summary = $value;
                         } else if($key == '@date') {
                             $this->date = $value;
+                        } else if(@key == '@marker') {
+                            $marker_kv = explode(' ', $kv[1], 2);
+
+                            $mkey = $marker_kv[0];
+                            $mvalue = '';
+
+                            if(count(marker_kv) > 1)
+                                $value = $marker_kv[1];
+
+                            $this->AddMarker($mkey, $mvalue);
                         }
                     }
                 }
@@ -76,6 +93,11 @@ class Page
 
     public function Inject($string) {
         $string = Common::inject($string);
+
+        // page markers
+        foreach ($this->markers as $marker => $content) {
+            $string = str_replace($marker, $content, $string);
+        }
 
         $string = str_replace('__DATE__', $this->getDate(), $string);
         return str_replace('__TITLE__', $this->title, $string);

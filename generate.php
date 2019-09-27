@@ -117,6 +117,10 @@ function generate_post($post, $post_index) {
 
             Common::$post_list = $entry . Common::$post_list;
         }
+
+        foreach (Module::$modules as $module) {
+            $module->OnPost($post);
+        }
     } else {
         fail('Could not generate post: ' . $post->source);
     }
@@ -133,6 +137,7 @@ function order_posts($callback) {
 
         ++$post_index;
     }
+
 }
 
 order_posts('load_post');

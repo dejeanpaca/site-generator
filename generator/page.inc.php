@@ -7,7 +7,11 @@ class Page
 {
     public $title = '';
     public $summary = '';
-    public $date = null;
+
+    /** post time as a timestamp */
+    public $date = 0;
+    /** post time as string */
+    public $date_string = null;
 
     public $source = '';
     public $content = '';
@@ -70,9 +74,11 @@ class Page
                             $this->title = $value;
                         else if($key == '@summary')
                             $this->summary = $value;
-                        else if($key == '@date')
-                            $this->date = $value;
-                        else if($key == '@marker') {
+                        else if($key == '@date') {
+                            $this->date_string = $value;
+
+                            $this->dateObject = strtotime($this->date_string);
+                        } else if($key == '@marker') {
                             $marker_kv = explode(' ', $kv[1], 2);
 
                             $mkey = $marker_kv[0];
@@ -155,8 +161,8 @@ class Page
     }
 
     public function getDate() {
-        if($this->date)
-            return $this->date;
+        if($this->date_string)
+            return $this->date_string;
         else
             return '';
     }

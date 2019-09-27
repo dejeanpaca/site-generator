@@ -92,7 +92,7 @@ class Page
     }
 
     public function Inject($string) {
-        $string = Common::inject($string);
+        $string = Common::Inject($string);
 
         // page markers
         foreach ($this->markers as $marker => $content) {

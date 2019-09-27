@@ -35,7 +35,7 @@ class Common
     public static function Inject($string) {
         // module injection
         foreach(Module::$modules as $module) {
-            $string = $module->inject($string);
+            $string = $module->Inject($string);
         }
 
         // global markers

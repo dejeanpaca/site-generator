@@ -24,12 +24,14 @@ class Page
         $this->type = $pageType;
     }
 
-    public static function AddMarker($marker, $content) {
-        self::$markers[$marker] = $content;
+    public function AddMarker($marker, $content) {
+        writeln('Added marker ' . $marker . ' ' . $content);
+
+        $this->markers[$marker] = $content;
     }
 
-    public static function HasMarker($marker) {
-        return array_key_exists($marker, self::$markers);
+    public function HasMarker($marker) {
+        return array_key_exists($marker, $this->markers);
     }
 
     public function getFn($base, $dir) {
@@ -66,20 +68,20 @@ class Page
                         $key = strtolower(trim($kv[0]));
                         $value = trim($kv[1]);
 
-                        if($key == '@title') {
+                        if($key == '@title')
                             $this->title = $value;
-                        } else if($key == '@summary') {
+                        else if($key == '@summary')
                             $this->summary = $value;
-                        } else if($key == '@date') {
+                        else if($key == '@date')
                             $this->date = $value;
-                        } else if(@key == '@marker') {
+                        else if($key == '@marker') {
                             $marker_kv = explode(' ', $kv[1], 2);
 
                             $mkey = $marker_kv[0];
                             $mvalue = '';
 
-                            if(count(marker_kv) > 1)
-                                $value = $marker_kv[1];
+                            if(count($marker_kv) > 1)
+                                $mvalue = $marker_kv[1];
 
                             $this->AddMarker($mkey, $mvalue);
                         }

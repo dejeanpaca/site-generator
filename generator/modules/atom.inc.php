@@ -37,9 +37,8 @@ class AtomModule extends Module
     /** @param Page $post */
     public function OnPost($post) {
         // only process pages which have a feed uuid marker
-        if(!$post->HasMarker('__FEED_UUID__')) {
+        if(!$post->HasMarker('__FEED_UUID__'))
             return;
-        }
 
         if($post->date) {
             if($this->lastDate) {
@@ -61,6 +60,22 @@ class AtomModule extends Module
             $entry = str_replace('__SUMMARY__', '', $entry);
         }
 
+        $generated_link = false;
+
+        // set empty summary if none
+        if(!$post->HasMarker('__LINK__')) {
+            if(Common::HasMarker('__SITE_LINK__'))  {
+                $link = str_replace('\\', '/', $post->getLink());
+
+                $link = Common::GetMarker('__SITE_LINK__') . '/' . $link;
+
+                $entry = str_replace('__LINK__', $link, $entry);
+                $generated_link = true;
+            }
+        }
+
+        if(!$generated_link)
+            writeln('Could not generate feed link for: ' . $post->getDescriptor());
 
         $entry = $post->Inject($entry);
 

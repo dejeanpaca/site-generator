@@ -42,6 +42,12 @@ class Page
         return $fn;
     }
 
+    public function getLink() {
+        $link = $this->type->output_dir . $this->source;
+
+        return $link;
+    }
+
     public function Load() {
         $fn = $this->getFn(Common::$source, $this->type->source_dir);
 

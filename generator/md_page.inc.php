@@ -11,7 +11,10 @@ class MarkdownPage extends Page
     function __construct() {
         global $mdPageType;
 
+        parent::__construct();
+
         $this->type = $mdPageType;
+        $this->markers = new Markers();
     }
 
     public function getContent() {

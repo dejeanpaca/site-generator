@@ -19,22 +19,18 @@ class Page
     /** @var PageType */
     public $type = null;
 
-    /** per page markers */
-    public $markers = [];
+    /** per page markers
+     * @var Markers
+    */
+    public $markers = null;
 
     function __construct() {
         global $pageType;
 
         $this->type = $pageType;
+        $this->markers = new Markers();
     }
 
-    public function AddMarker($marker, $content) {
-        $this->markers[$marker] = $content;
-    }
-
-    public function HasMarker($marker) {
-        return array_key_exists($marker, $this->markers);
-    }
 
     public function getFn($base, $dir) {
         $fn = $base . $dir . $this->source;
@@ -93,7 +89,7 @@ class Page
                             if(count($marker_kv) > 1)
                                 $mvalue = $marker_kv[1];
 
-                            $this->AddMarker($mkey, $mvalue);
+                            $this->markers->Add($mkey, $mvalue);
                         }
                     }
                 }
@@ -109,9 +105,7 @@ class Page
 
     public function Inject($string) {
         // page markers
-        foreach ($this->markers as $marker => $content) {
-            $string = str_replace($marker, $content, $string);
-        }
+        $string = $this->markers->Inject($string);
 
         $string = Common::Inject($string);
 

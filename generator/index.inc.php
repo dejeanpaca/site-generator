@@ -22,6 +22,8 @@ class IndexPage extends Page
     function __construct() {
         global $indexType;
 
+        parent::__construct();
+
         $this->type = $indexType;
     }
 }

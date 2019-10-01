@@ -12,6 +12,8 @@ class Post extends Page
     function __construct() {
         global $postType;
 
+        parent::__construct();
+
         $this->type = $postType;
     }
 }

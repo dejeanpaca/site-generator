@@ -37,7 +37,7 @@ class AtomModule extends Module
     /** @param Page $post */
     public function OnPost($post) {
         // only process pages which have a feed uuid marker
-        if(!$post->HasMarker('__FEED_UUID__'))
+        if(!$post->markers->Has('__FEED_UUID__'))
             return;
 
         if($post->date) {
@@ -51,23 +51,23 @@ class AtomModule extends Module
         $entry = substr($this->entry_template->content, 0);
 
         // set time updated if none
-        if(!$post->HasMarker('__TIME_UPDATED__')) {
+        if(!$post->markers->Has('__TIME_UPDATED__')) {
             $entry = str_replace('__TIME_UPDATED__', $post->getDate(), $entry);
         }
 
         // set empty summary if none
-        if(!$post->HasMarker('__SUMMARY__')) {
+        if(!$post->markers->Has('__SUMMARY__')) {
             $entry = str_replace('__SUMMARY__', '', $entry);
         }
 
         $generated_link = false;
 
         // set empty summary if none
-        if(!$post->HasMarker('__LINK__')) {
-            if(Common::HasMarker('__SITE_LINK__'))  {
+        if(!$post->markers->Has('__LINK__')) {
+            if(Common::$markers->Has('__SITE_LINK__'))  {
                 $link = str_replace('\\', '/', $post->getLink());
 
-                $link = Common::GetMarker('__SITE_LINK__') . '/' . $link;
+                $link = Common::$markers->Get('__SITE_LINK__') . '/' . $link;
 
                 $entry = str_replace('__LINK__', $link, $entry);
                 $generated_link = true;

@@ -5,6 +5,7 @@ if(is_dir('vendor'))
 
 require_once __DIR__ . '/generator/lib.php';
 require_once __DIR__ . '/generator/utils.inc.php';
+require_once __DIR__ . '/generator/markers.inc.php';
 require_once __DIR__ . '/generator/module.inc.php';
 require_once __DIR__ . '/generator/common.inc.php';
 require_once __DIR__ . '/generator/page_type.inc.php';

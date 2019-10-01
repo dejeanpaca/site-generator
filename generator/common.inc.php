@@ -30,7 +30,12 @@ class Common
     public static $post_list = '';
     public static $copy_list = [];
     public static $replacers = [];
-    public static $markers = [];
+    /** @var Markers */
+    public static $markers = null;
+
+    public static function Initialize() {
+        self::$markers = new Markers();
+    }
 
     public static function Inject($string) {
         // module injection
@@ -39,9 +44,7 @@ class Common
         }
 
         // global markers
-        foreach (self::$markers as $marker => $content) {
-            $string = str_replace($marker, $content, $string);
-        }
+        $string = self::$markers->Inject($string);
 
         // replacers
         foreach (self::$replacers as $replacer) {
@@ -59,24 +62,11 @@ class Common
         array_push(self::$replacers, $replacer);
     }
 
-    public static function AddMarker($marker, $content) {
-        self::$markers[$marker] = $content;
-    }
-
-    public static function HasMarker($marker) {
-        return array_key_exists($marker, self::$markers);
-    }
-
-    public static function GetMarker($marker) {
-        if(array_key_exists($marker, self::$markers))
-            return self::$markers[$marker];
-        else
-            return '';
-    }
-
     public static function Load() {
         foreach(self::$replacers as $replacer) {
             $replacer->Load();
         }
     }
 }
+
+Common::Initialize();

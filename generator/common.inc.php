@@ -47,6 +47,7 @@ class Common
         foreach (self::$replacers as $replacer) {
             $string = $replacer->Inject($string);
         }
+
         return str_replace(self::POST_LIST_MARKER, self::$post_list, $string);
     }
 
@@ -60,6 +61,17 @@ class Common
 
     public static function AddMarker($marker, $content) {
         self::$markers[$marker] = $content;
+    }
+
+    public static function HasMarker($marker) {
+        return array_key_exists($marker, self::$markers);
+    }
+
+    public static function GetMarker($marker) {
+        if(array_key_exists($marker, self::$markers))
+            return self::$markers[$marker];
+        else
+            return '';
     }
 
     public static function Load() {

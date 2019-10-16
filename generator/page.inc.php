@@ -79,7 +79,7 @@ class Page
                         else if($key == '@date') {
                             $this->date_string = $value;
 
-                            $this->dateObject = strtotime($this->date_string);
+                            $this->date = strtotime($this->date_string);
                         } else if($key == '@marker') {
                             $marker_kv = explode(' ', $kv[1], 2);
 

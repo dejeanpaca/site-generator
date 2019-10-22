@@ -84,8 +84,7 @@ foreach (PageType::$types as $type) {
 foreach (Common::$copy_list as $what) {
     $source = Common::$source . $what;
 
-    if(!smartCopy($source, Common::$target . $what))
-        fail('Could not copy: ' . $source);
+    copy_recursively($source, Common::$target . $what);
 }
 
 $entry_template = load_file(Common::$source . POST_ENTRY_TEMPLATE_FILE);

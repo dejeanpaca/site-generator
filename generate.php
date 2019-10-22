@@ -24,9 +24,8 @@ if(!is_dir(Common::$source))
 function include_module(string $module) {
     $fn = __DIR__ . '/generator/modules/' . $module . '.inc.php';
 
-    if (!file_exists($fn)) {
+    if (!file_exists($fn))
         fail('Could not find required module ' . $module);
-    }
 
     return $fn;
 }
@@ -57,14 +56,12 @@ foreach(PageType::$types as $type) {
 
 function create_directory($target) {
     if(is_dir($target)) {
-        if(!rmTree($target)) {
+        if(!rmTree($target))
             fail('Could not remove existing ' . $target . ' directory');
-        }
     }
 
-    if(!mkdir($target)) {
+    if(!mkdir($target))
         fail('Could not create ' . $target . ' directory');
-    }
 }
 
 foreach ($structure as $folder) {
@@ -76,11 +73,10 @@ foreach (PageType::$types as $type) {
         $target = Common::$target . $type->output_dir;
 
         if(!is_dir($target)) {
-            if(!mkdir($target)) {
+            if(!mkdir($target))
                 fail('Could not generate ' . $target . ' directory in output');
-            } else {
+            else
                 writeln('Created ' . $target . ' directory in output');
-            }
         }
     }
 }
@@ -88,9 +84,8 @@ foreach (PageType::$types as $type) {
 foreach (Common::$copy_list as $what) {
     $source = Common::$source . $what;
 
-    if(!smartCopy($source, Common::$target . $what)) {
+    if(!smartCopy($source, Common::$target . $what))
         fail('Could not copy: ' . $source);
-    }
 }
 
 $entry_template = load_file(Common::$source . POST_ENTRY_TEMPLATE_FILE);
@@ -120,9 +115,8 @@ function generate_post($post, $post_index) {
         foreach (Module::$modules as $module) {
             $module->OnPost($post);
         }
-    } else {
+    } else
         fail('Could not generate post: ' . $post->source);
-    }
 }
 
 function order_posts($callback) {
@@ -130,9 +124,8 @@ function order_posts($callback) {
     $post_index = 1;
 
     foreach(Pages::$list as $post) {
-        if($callback) {
+        if($callback)
             call_user_func($callback, $post, $post_index);
-        }
 
         ++$post_index;
     }

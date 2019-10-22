@@ -55,10 +55,8 @@ foreach(PageType::$types as $type) {
 }
 
 function create_directory($target) {
-    if(is_dir($target)) {
-        if(!rmTree($target))
-            fail('Could not remove existing ' . $target . ' directory');
-    }
+    if(is_dir($target))
+        rmTree($target);
 
     if(!mkdir($target))
         fail('Could not create ' . $target . ' directory');

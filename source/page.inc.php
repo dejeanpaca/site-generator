@@ -2,6 +2,7 @@
 
 $pageType = new PageType();
 $pageType->class = '\Page';
+$pageType->zIndex = 1000;
 
 class Page
 {
@@ -19,6 +20,9 @@ class Page
     public $source = '';
     public $content = '';
 
+    /** zIndex for this page, to sort during generation */
+    public $zIndex = 0;
+
     /** @var PageType */
     public $type = null;
 
@@ -30,8 +34,13 @@ class Page
     function __construct() {
         global $pageType;
 
-        $this->type = $pageType;
         $this->markers = new Markers();
+        $this->setType($pageType);
+    }
+
+    public function setType($type) {
+        $this->type = $type;
+        $this->zIndex = $type->zIndex;
     }
 
     public function getFn($base, $dir) {

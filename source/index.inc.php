@@ -4,6 +4,7 @@ $indexType = new IndexPageType();
 $indexType->templateFile = 'index_template.html';
 $indexType->SetDirectory('');
 $indexType->class = '\IndexPage';
+$indexType->zIndex = 10000;
 
 class IndexPageType extends PageType
 {
@@ -23,6 +24,6 @@ class IndexPage extends Page
 
         parent::__construct();
 
-        $this->type = $indexType;
+        $this->setType($indexType);
     }
 }

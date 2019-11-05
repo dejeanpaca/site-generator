@@ -4,6 +4,7 @@ $mdPageType = new PageType();
 $mdPageType->templateFile = 'page_template.html';
 $mdPageType->SetDirectory('md_pages');
 $mdPageType->class = '\MarkdownPage';
+$mdPageType->zIndex = 1000;
 
 class MarkdownPage extends Page
 {
@@ -12,8 +13,7 @@ class MarkdownPage extends Page
 
         parent::__construct();
 
-        $this->type = $mdPageType;
-        $this->markers = new Markers();
+        $this->setType($mdPageType);
     }
 
     public function getContent() {

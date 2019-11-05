@@ -9,6 +9,9 @@ class PageType
     /** @var class */
     public $class = null;
 
+    /** default zIndex for pages of this type */
+    public $zIndex = 0;
+
     // is this page type a post
     public $category = '';
 
@@ -61,9 +64,9 @@ class PageType
                 if(Pages::find($fn))
                     continue;
 
-
                 $page = new $this->class;
                 $page->source = $file;
+                $page->zIndex = $this->zIndex;
 
                 Pages::add($page);
             }

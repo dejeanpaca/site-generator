@@ -11,6 +11,8 @@ class MarkdownPost extends MarkdownPage
     function __construct() {
         global $mdPostType;
 
-        $this->type = $mdPostType;
+        parent::__construct();
+
+        $this->setType($mdPostType);
     }
 }

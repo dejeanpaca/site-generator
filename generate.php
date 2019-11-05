@@ -132,7 +132,14 @@ function order_posts($callback) {
 
 }
 
+function compare_page_zindex($a, $b) {
+    return $a->zIndex > $b->zIndex;
+}
+
 order_posts('load_post');
+
+usort(Pages::$list, 'compare_page_zindex');
+
 order_posts('generate_post');
 
 foreach (Module::$modules as $module) {

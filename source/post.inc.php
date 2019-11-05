@@ -13,6 +13,6 @@ class Post extends Page
 
         parent::__construct();
 
-        $this->type = $postType;
+        $this->setType($postType);
     }
 }

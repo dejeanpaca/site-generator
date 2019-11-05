@@ -87,7 +87,7 @@ class AtomModule extends Module
         $entries = '';
 
         foreach ($this->entries as $entry) {
-            $entries = $entries . $entry;
+            $entries = $entry . $entries;
         }
 
         $feed = str_replace('__FEED_ENTRIES__', $entries, $feed);

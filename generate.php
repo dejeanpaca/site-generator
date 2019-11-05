@@ -3,13 +3,13 @@
 if(is_dir('vendor'))
     require_once __DIR__ . '/vendor/autoload.php';
 
-require_once __DIR__ . '/generator/lib.php';
-require_once __DIR__ . '/generator/utils.inc.php';
-require_once __DIR__ . '/generator/markers.inc.php';
-require_once __DIR__ . '/generator/module.inc.php';
-require_once __DIR__ . '/generator/common.inc.php';
-require_once __DIR__ . '/generator/page_type.inc.php';
-require_once __DIR__ . '/generator/pages.inc.php';
+require_once __DIR__ . '/source/lib.php';
+require_once __DIR__ . '/source/utils.inc.php';
+require_once __DIR__ . '/source/markers.inc.php';
+require_once __DIR__ . '/source/module.inc.php';
+require_once __DIR__ . '/source/common.inc.php';
+require_once __DIR__ . '/source/page_type.inc.php';
+require_once __DIR__ . '/source/pages.inc.php';
 
 if(!is_cli())
    die();
@@ -22,7 +22,7 @@ if(!is_dir(Base::$source))
     fail('No site folder found. You can copy over existing `site-template` as `site` and work from there');
 
 function include_module(string $module) {
-    $fn = __DIR__ . '/generator/modules/' . $module . '.inc.php';
+    $fn = __DIR__ . '/source/modules/' . $module . '.inc.php';
 
     if (!file_exists($fn))
         fail('Could not find required module ' . $module);

@@ -7,7 +7,7 @@ class PageType
     public $output_dir = 'pages' . DIRECTORY_SEPARATOR;
     public $template = "";
     /** @var class */
-    public $class = null;
+    public $class = '\Page';
 
     /** default zIndex for pages of this type */
     public $zIndex = 0;
@@ -64,12 +64,19 @@ class PageType
                 if(Pages::find($fn))
                     continue;
 
-                $page = new $this->class;
+                $page = $this->InstancePage();
                 $page->source = $file;
-                $page->zIndex = $this->zIndex;
 
                 Pages::add($page);
             }
         }
+    }
+
+    public function InstancePage() {
+        $page = new $this->class;
+        $page->setType($this);
+        $page->zIndex = $this->zIndex;
+
+        return $page;
     }
 }

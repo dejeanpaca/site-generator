@@ -1,7 +1,6 @@
 <?php
 
 $pageType = new PageType();
-$pageType->class = '\Page';
 $pageType->zIndex = 1000;
 
 class Page

@@ -100,7 +100,7 @@ function generate_post($post, $post_index) {
         if($post->type->category) {
             $entry = substr($entry_template, 0);
 
-            $link = $post->correctExtension($post->type->output_dir . $post->source);
+            $link = '/' . $post->correctExtension($post->type->output_dir . $post->source);
 
             $entry = str_replace('__DATE__', $post->getDate(), $entry);
             $entry = str_replace('__HREF__', $link, $entry);

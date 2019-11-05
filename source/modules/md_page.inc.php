@@ -2,8 +2,8 @@
 
 $mdPageType = new PageType();
 $mdPageType->templateFile = 'page_template.html';
-$mdPageType->source_dir = 'pages' . DIRECTORY_SEPARATOR;
-$mdPageType->output_dir = 'pages' . DIRECTORY_SEPARATOR;
+$mdPageType->source_dir = 'md_pages' . DIRECTORY_SEPARATOR;
+$mdPageType->output_dir = 'md_pages' . DIRECTORY_SEPARATOR;
 $mdPageType->class = '\MarkdownPage';
 
 class MarkdownPage extends Page

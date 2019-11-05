@@ -19,11 +19,7 @@ class Common
         self::$markers = new Markers();
 
         // add the default category
-        $default = new Category();
-        $default->name = 'posts';
-        $default->marker = '__POST_LIST__';
-
-        self::AddCategory($default);
+        self::AddCategory(Category::Create('posts', '__POST_LIST__'));
     }
 
     public static function AddCategory($category) {

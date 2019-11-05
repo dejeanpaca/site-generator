@@ -2,7 +2,7 @@
 
 $mdPageType = new PageType();
 $mdPageType->templateFile = 'page_template.html';
-$mdPageType->setDirectory('md_pages');
+$mdPageType->SetDirectory('md_pages');
 $mdPageType->class = '\MarkdownPage';
 
 class MarkdownPage extends Page

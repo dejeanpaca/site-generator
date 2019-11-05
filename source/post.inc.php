@@ -2,7 +2,7 @@
 
 $postType = new PageType();
 $postType->templateFile = 'post_template.html';
-$postType->setDirectory('posts');
+$postType->SetDirectory('posts');
 $postType->category = 'posts';
 $postType->class = '\Post';
 

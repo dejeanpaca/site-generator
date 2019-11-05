@@ -6,9 +6,6 @@ require_once __DIR__ . '/replacer.inc.php';
 
 class Common
 {
-    public const POST_LIST_MARKER = '__POST_LIST__';
-
-    public static $post_list = '';
     public static $copy_list = [];
     public static $replacers = [];
     /** @var Markers */
@@ -24,8 +21,7 @@ class Common
         // add the default category
         $default = new Category();
         $default->name = 'posts';
-        $default->replacer = '__POST_LIST__';
-        $default->source = 'posts';
+        $default->marker = '__POST_LIST__';
 
         self::AddCategory($default);
     }
@@ -58,7 +54,12 @@ class Common
             $string = $replacer->Inject($string);
         }
 
-        return str_replace(self::POST_LIST_MARKER, self::$post_list, $string);
+        // categories
+        foreach (Common::$categories as $cat) {
+            $string = $cat->Inject($string);
+        }
+
+        return $string;
     }
 
     public static function Add($marker, $file) {

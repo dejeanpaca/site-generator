@@ -10,7 +10,7 @@ class PageType
     public $class = null;
 
     // is this page type a post
-    public $post = false;
+    public $category = '';
 
     /** @var PageType[] */
     public static $types = [];

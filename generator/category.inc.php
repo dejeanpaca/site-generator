@@ -3,6 +3,10 @@
 class Category
 {
     public $name;
-    public $folder = '';
-    public $content;
+    public $entries;
+    public $marker;
+
+    public function Inject($string) {
+        return str_replace($this->marker, $this->entries, $string);
+    }
 }

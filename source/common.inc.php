@@ -23,7 +23,7 @@ class Common
     }
 
     public static function AddCategory($category) {
-        if(!self::FindCategory($category))
+        if(!self::FindCategory($category->name))
             array_push(self::$categories, $category);
     }
 
@@ -37,7 +37,7 @@ class Common
                 return $cat;
         }
 
-        return false;
+        return null;
     }
 
     public static function Inject($string) {

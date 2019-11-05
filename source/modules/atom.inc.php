@@ -56,9 +56,7 @@ class AtomModule extends Module
         }
 
         // set empty summary if none
-        if(!$post->markers->Has('__SUMMARY__')) {
-            $entry = str_replace('__SUMMARY__', '', $entry);
-        }
+        $entry = str_replace('__SUMMARY__', $post->summary, $entry);
 
         $generated_link = false;
 

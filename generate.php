@@ -135,7 +135,14 @@ function order_posts($callback) {
 order_posts('load_post');
 
 usort(Pages::$list, function ($a, $b) {
-    return $a->zIndex > $b->zIndex;
+    if($a->zIndex == $b->zIndex) {
+        if($a->date && $b->date)
+            return $a->date > $b->date;
+
+        return false;
+    } else {
+        return $a->zIndex > $b->zIndex;
+    }
 });
 
 order_posts('generate_post');

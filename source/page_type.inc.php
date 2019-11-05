@@ -19,6 +19,16 @@ class PageType
         array_push(self::$types, $this);
     }
 
+    public function setDirectory($directory) {
+        if($directory) {
+            $this->source_dir = $directory . DIRECTORY_SEPARATOR;
+            $this->output_dir = $directory . DIRECTORY_SEPARATOR;
+        } else {
+            $this->source_dir = '';
+            $this->output_dir = '';
+        }
+    }
+
     public function LoadTemplate() {
         $this->template = load_file(Base::$source . Replacer::TEMPLATE_SOURCE . $this->templateFile);
 

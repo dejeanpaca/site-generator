@@ -2,8 +2,7 @@
 
 $indexType = new IndexPageType();
 $indexType->templateFile = 'index_template.html';
-$indexType->source_dir = '';
-$indexType->output_dir = '';
+$indexType->setDirectory('');
 $indexType->class = '\IndexPage';
 
 class IndexPageType extends PageType

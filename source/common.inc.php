@@ -27,6 +27,10 @@ class Common
             array_push(self::$categories, $category);
     }
 
+    public static function CreateCategory($name, $marker) {
+        Self::AddCategory(Category::Create($name, $marker));
+    }
+
     public static function FindCategory($name) {
         foreach(self::$categories as $cat) {
             if($cat->name == $name)

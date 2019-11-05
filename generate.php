@@ -106,10 +106,10 @@ function generate_post($post, $post_index) {
             $entry = str_replace('__HREF__', $link, $entry);
             $entry = str_replace('__TITLE__', $post->title, $entry);
 
-            $category = Common::FindCategory($post->type->category);
+            $cat = Common::FindCategory($post->type->category);
 
-            if($category)
-                $category->entries = $entry . $category->entries;
+            if($cat)
+                $cat->entries = $entry . $cat->entries;
         }
 
         foreach (Module::$modules as $module) {

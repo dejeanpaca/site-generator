@@ -18,7 +18,7 @@ class Pages
     // find a page by the given name (from sources)
     public static function Find($fn) {
         foreach(self::$list as $page) {
-            $page_fn = Common::$source . $page->type->source_dir . $page->source;
+            $page_fn = Base::$source . $page->type->source_dir . $page->source;
 
             if($page_fn == $fn)
                 return $page;

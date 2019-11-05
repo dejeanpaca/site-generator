@@ -47,7 +47,7 @@ class Page
     }
 
     public function Load() {
-        $fn = $this->getFn(Common::$source, $this->type->source_dir);
+        $fn = $this->getFn(Base::$source, $this->type->source_dir);
 
         $this->content = load_file($fn, false);
         $this->getDescriptor();
@@ -133,7 +133,7 @@ class Page
 
     public function Generate() {
         if($this->content) {
-            $fn = $this->getFn(Common::$target, $this->type->output_dir);
+            $fn = $this->getFn(Base::$target, $this->type->output_dir);
 
             // skip if we're linking to an existing file
             if(file_exists($fn))

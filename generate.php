@@ -18,7 +18,7 @@ const POST_ENTRY_TEMPLATE_FILE = Replacer::TEMPLATE_SOURCE . 'post_entry_templat
 
 writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 
-if(!is_dir(Common::$source))
+if(!is_dir(Base::$source))
     fail('No site folder found. You can copy over existing `site-template` as `site` and work from there');
 
 function include_module(string $module) {
@@ -30,14 +30,14 @@ function include_module(string $module) {
     return $fn;
 }
 
-if(!is_file(Common::$source . 'generator.inc.php' ))
+if(!is_file(Base::$source . 'generator.inc.php' ))
     fail('No site definition file found (generator.inc.php).');
 
 writeln("Generating site ...");
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . Common::$source . 'generator.inc.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . Base::$source . 'generator.inc.php';
 
-$structure = [Common::$target];
+$structure = [Base::$target];
 $entry_template = "";
 
 foreach(PageType::$types as $type) {
@@ -68,7 +68,7 @@ foreach ($structure as $folder) {
 
 foreach (PageType::$types as $type) {
     if($type->output_dir) {
-        $target = Common::$target . $type->output_dir;
+        $target = Base::$target . $type->output_dir;
 
         if(!is_dir($target)) {
             if(!mkdir($target))
@@ -80,12 +80,12 @@ foreach (PageType::$types as $type) {
 }
 
 foreach (Common::$copy_list as $what) {
-    $source = Common::$source . $what;
+    $source = Base::$source . $what;
 
-    copy_recursively($source, Common::$target . $what);
+    copy_recursively($source, Base::$target . $what);
 }
 
-$entry_template = load_file(Common::$source . POST_ENTRY_TEMPLATE_FILE);
+$entry_template = load_file(Base::$source . POST_ENTRY_TEMPLATE_FILE);
 
 function load_post($post, $post_index) {
     $post->Load();

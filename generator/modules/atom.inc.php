@@ -100,7 +100,7 @@ class AtomModule extends Module
 
         $feed = str_replace('__FEED_TIME_UPDATED__', $updated_time, $feed);
 
-        $fn = Common::$target . self::FEED_FILE_NAME;
+        $fn = Base::$target . self::FEED_FILE_NAME;
 
         $ok = write_file($fn, $feed, false);
 

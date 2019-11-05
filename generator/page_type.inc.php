@@ -20,14 +20,14 @@ class PageType
     }
 
     public function LoadTemplate() {
-        $this->template = load_file(Common::$source . Replacer::TEMPLATE_SOURCE . $this->templateFile);
+        $this->template = load_file(Base::$source . Replacer::TEMPLATE_SOURCE . $this->templateFile);
 
         return $this->template != null;
     }
 
     /** load all pages of this type */
     public function Load() {
-        $source = Common::$source . $this->source_dir;
+        $source = Base::$source . $this->source_dir;
 
         $path_info = pathinfo($this->templateFile);
         $required_ext = $path_info['extension'];

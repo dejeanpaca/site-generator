@@ -1,6 +1,6 @@
 # Introduction
 
-A minimalistic site generator for mostly static content, intended for a blog type site.
+A minimalist site generator for mostly static content, intended for a blog type site.
 
 ## Content
 
@@ -14,8 +14,14 @@ Run `php generate.php` to generate the site.
 
 Composer packages are not required to be installed, because we only use one for markdown, and unless you include that explicitly, it'll work without it (and without markdown support).
 
-## Markdown
+## Modules
 
-If you want the ability to use markdown for pages/posts include the `generator/md_pages.inc.php` script in your `generator.inc.php` file and use MDPages class to add pages and posts. Currently not possible to customize the markdown css.
+### Markdown
+
+If you want the ability to use markdown for pages/posts include the `require_once include_module('md_page');` or `require_once include_module('md_post');` script in your `generator.inc.php` file. Currently not possible to customize the markdown css.
 
 Also don't forget to install composer packages via `composer install` because we need the `league/markdown` package for this.
+
+### Atom
+
+If you want the ability to generate an atom feed, include the `require_once include_module('atom');` line in your `generator.inc.php` file.

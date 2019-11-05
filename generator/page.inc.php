@@ -8,6 +8,9 @@ class Page
     public $title = '';
     public $summary = '';
 
+    /** what category this post goes into */
+    public $category = 'posts';
+
     /** post time as a timestamp */
     public $date = 0;
     /** post time as string */
@@ -30,7 +33,6 @@ class Page
         $this->type = $pageType;
         $this->markers = new Markers();
     }
-
 
     public function getFn($base, $dir) {
         $fn = $base . $dir . $this->source;

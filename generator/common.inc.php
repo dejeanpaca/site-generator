@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/category.inc.php';
+
 class Replacer
 {
     public const TEMPLATE_SOURCE = 'templates' . DIRECTORY_SEPARATOR;
@@ -33,8 +35,34 @@ class Common
     /** @var Markers */
     public static $markers = null;
 
+    /** Different types of categories
+     * @var Category[] */
+    public static $categories = [];
+
     public static function Initialize() {
         self::$markers = new Markers();
+
+        // add the default category
+        $default = new Category();
+        $default->name = 'posts';
+        $default->replacer = '__POST_LIST__';
+        $default->source = 'posts';
+
+        self::AddCategory($default);
+    }
+
+    public static function AddCategory($category) {
+        if(!self::FindCategory($category))
+            array_push(self::$categories, $category);
+    }
+
+    public static function FindCategory($name) {
+        foreach(self::$categories as $cat) {
+            if($cat->name == $name)
+                return $cat;
+        }
+
+        return false;
     }
 
     public static function Inject($string) {

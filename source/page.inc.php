@@ -165,12 +165,12 @@ class Page
         }
     }
 
-    public function Write() {
+    public function Write($force = false) {
         if($this->generated) {
             $fn = $this->getTargetFn();
 
-            // skip if we're linking to an existing file
-            if(file_exists($fn))
+            // skip if we're linking to an existing file, or overwrite if forced
+            if(file_exists($fn) && !$force)
                 return true;
 
             $fn = $this->correctExtension($fn);

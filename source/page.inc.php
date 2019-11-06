@@ -50,6 +50,10 @@ class Page
         return $fn;
     }
 
+    public function getTargetFn() {
+        return $this->getFn(Base::$target, $this->type->output_dir);
+    }
+
     public function getLink() {
         $link = $this->type->output_dir . $this->source;
 
@@ -163,7 +167,7 @@ class Page
 
     public function Write() {
         if($this->generated) {
-            $fn = $this->getFn(Base::$target, $this->type->output_dir);
+            $fn = $this->getTargetFn();
 
             // skip if we're linking to an existing file
             if(file_exists($fn))

@@ -24,6 +24,13 @@ class Module
 
     }
 
+    /** called after all posts are generated
+     * @param Page post
+     */
+    public function OnPostDone($post) {
+
+    }
+
     public function Inject($string) {
         return $string;
     }

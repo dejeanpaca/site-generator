@@ -122,6 +122,12 @@ function write_post($post, $post_index) {
         fail('Could not write post: ' . $post->source);
 }
 
+function module_post_done($post, $post_index) {
+    foreach (Module::$modules as $module) {
+        $module->OnPostDone($post);
+    }
+}
+
 function order_posts($callback) {
     $post = null;
     $post_index = 1;
@@ -149,6 +155,7 @@ usort(Pages::$list, function ($a, $b) {
 });
 
 order_posts('generate_post');
+order_posts('module_post_done');
 order_posts('write_post');
 
 foreach (Module::$modules as $module) {

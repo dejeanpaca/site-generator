@@ -27,6 +27,11 @@ class TidyModule extends Module
             $tidy = new tidy($fn, self::$configuration, self::$encoding);
 
             if($tidy->cleanRepair()) {
+                $errors = $tidy->errorBuffer;
+
+                if($errors)
+                    writeln($errors);
+
                 $output = tidy_get_output($tidy);
                 $page->generated = $output;
                 $page->Write(true);

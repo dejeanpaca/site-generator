@@ -94,29 +94,32 @@ function load_post($post, $post_index) {
 function generate_post($post, $post_index) {
     global $entry_template;
 
-    if($post->Generate()) {
-        writeln('Generated: (' . $post_index . ') ' . $post->source);
+    $post->Generate();
+    writeln('Generated: (' . $post_index . ') ' . $post->source);
 
-        if($post->type->category) {
-            $entry = substr($entry_template, 0);
+    if($post->type->category) {
+        $entry = substr($entry_template, 0);
 
-            $link = '/' . $post->correctExtension($post->type->output_dir . $post->source);
+        $link = '/' . $post->correctExtension($post->type->output_dir . $post->source);
 
-            $entry = str_replace('__DATE__', $post->getDate(), $entry);
-            $entry = str_replace('__HREF__', $link, $entry);
-            $entry = str_replace('__TITLE__', $post->title, $entry);
+        $entry = str_replace('__DATE__', $post->getDate(), $entry);
+        $entry = str_replace('__HREF__', $link, $entry);
+        $entry = str_replace('__TITLE__', $post->title, $entry);
 
-            $cat = Common::FindCategory($post->type->category);
+        $cat = Common::FindCategory($post->type->category);
 
-            if($cat)
-                $cat->entries = $entry . $cat->entries;
-        }
+        if($cat)
+            $cat->entries = $entry . $cat->entries;
+    }
 
-        foreach (Module::$modules as $module) {
-            $module->OnPost($post);
-        }
-    } else
-        fail('Could not generate post: ' . $post->source);
+    foreach (Module::$modules as $module) {
+        $module->OnPost($post);
+    }
+}
+
+function write_post($post, $post_index) {
+    if(!$post->Write())
+        fail('Could not write post: ' . $post->source);
 }
 
 function order_posts($callback) {
@@ -146,6 +149,7 @@ usort(Pages::$list, function ($a, $b) {
 });
 
 order_posts('generate_post');
+order_posts('write_post');
 
 foreach (Module::$modules as $module) {
     $module->Done();

@@ -8,16 +8,18 @@ class Page
     public $title = '';
     public $summary = '';
 
-    /** what category this post goes into */
+    /** what category this page goes into */
     public $category = 'posts';
 
-    /** post time as a timestamp */
+    /** page time as a timestamp */
     public $date = 0;
-    /** post time as string */
+    /** page time as string */
     public $date_string = null;
 
     public $source = '';
     public $content = '';
+    /** generated content of the page */
+    public $generated = '';
 
     /** zIndex for this page, to sort during generation */
     public $zIndex = 0;
@@ -141,31 +143,40 @@ class Page
 
     public function Generate() {
         if($this->content) {
+            $page = substr($this->type->template, 0);
+
+            $content = $this->getContent();
+
+            $page = str_replace('__CONTENT__', $content, $page);
+            $page = $this->Inject($page);
+
+            // perform additional processing (such as converting markdown to html)
+            $page = $this->process($page);
+
+            $this->generated = $page;
+        } else {
+            writeln("Page has no content: " . $this->source);
+            // if no content, we'll consider it generated
+            return true;
+        }
+    }
+
+    public function Write() {
+        if($this->generated) {
             $fn = $this->getFn(Base::$target, $this->type->output_dir);
 
             // skip if we're linking to an existing file
             if(file_exists($fn))
                 return true;
 
-            $post = substr($this->type->template, 0);
-
-            $content = $this->getContent();
-
-            $post = str_replace('__CONTENT__', $content, $post);
-            $post = $this->Inject($post);
-
-            // perform additional processing (such as converting markdown to html)
-            $post = $this->process($post);
-
             $fn = $this->correctExtension($fn);
 
             // done, write file
-            $ok = write_file($fn, $post, false);
+            $ok = write_file($fn, $this->generated, false);
 
             return $ok;
         } else {
-            writeln("Page has no content: " . $this->source);
-            // if no content, we'll consider it generated
+            writeln("Page has no generated content, skipping write: " . $this->source);
             return true;
         }
     }
@@ -182,8 +193,8 @@ class Page
         return $this->content;
     }
 
-    // perform additional processing on this post (if any))
-    public function process($post) {
-        return $post;
+    // perform additional processing on this page (if any))
+    public function process($page) {
+        return $page;
     }
 }

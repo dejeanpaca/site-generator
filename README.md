@@ -25,3 +25,9 @@ Also don't forget to install composer packages via `composer install` because we
 ### Atom
 
 If you want the ability to generate an atom feed, include the `require_once include_module('atom');` line in your `generator.inc.php` file.
+
+### Tidy
+
+If you want to tidy up your html, you can use the `tidy` module by including the `require_once include_module('tidy');` in your `generator.inc.php` file. It will automatically tidy your pages. You will need to install `php-tidy` or equivalent for your platform.
+
+You can configure it further via the `TidyModule::$configuration` property. See [configuration options](http://tidy.sourceforge.net/docs/quickref.html) here.

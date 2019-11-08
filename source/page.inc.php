@@ -189,9 +189,12 @@ class Page
         }
     }
 
-    public function getDate() {
+    public function getDate($format = null) {
+        if(!$format)
+            $format = self::$postDateFormat;
+
         if($this->date)
-            return date(self::$postDateFormat, $this->date);
+            return date($format, $this->date);
         else
             return $this->date_string;
     }

@@ -51,10 +51,7 @@ class AtomModule extends Module
         $entry = substr($this->entry_template->content, 0);
 
         // set time updated if none
-        if($post->date)
-            $entry = str_replace('__TIME_UPDATED__', date("c", $post->date), $entry);
-        else
-            $entry = str_replace('__TIME_UPDATED__', date("c", $post->date_string), $entry);
+        $entry = str_replace('__TIME_UPDATED__', $post->getDate("c"), $entry);
 
         // set empty summary if none
         $entry = str_replace('__SUMMARY__', $post->summary, $entry);

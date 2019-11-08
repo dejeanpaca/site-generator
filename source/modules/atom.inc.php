@@ -51,9 +51,10 @@ class AtomModule extends Module
         $entry = substr($this->entry_template->content, 0);
 
         // set time updated if none
-        if(!$post->markers->Has('__TIME_UPDATED__')) {
-            $entry = str_replace('__TIME_UPDATED__', $post->getDate(), $entry);
-        }
+        if($post->date)
+            $entry = str_replace('__TIME_UPDATED__', date("c", $post->date), $entry);
+        else
+            $entry = str_replace('__TIME_UPDATED__', date("c", $post->date_string), $entry);
 
         // set empty summary if none
         $entry = str_replace('__SUMMARY__', $post->summary, $entry);
@@ -63,8 +64,7 @@ class AtomModule extends Module
         // set empty summary if none
         if(!$post->markers->Has('__LINK__')) {
             if(Common::$markers->Has('__SITE_LINK__'))  {
-                $link = str_replace('\\', '/', $post->getLink());
-
+                $link = $post->getLink();
                 $link = Common::$markers->Get('__SITE_LINK__') . '/' . $link;
 
                 $entry = str_replace('__LINK__', $link, $entry);

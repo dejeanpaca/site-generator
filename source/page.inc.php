@@ -27,6 +27,8 @@ class Page
     /** @var PageType */
     public $type = null;
 
+    public static $postDateFormat = 'Y-m-d';
+
     /** per page markers
      * @var Markers
     */
@@ -55,7 +57,9 @@ class Page
     }
 
     public function getLink() {
-        $link = $this->type->output_dir . $this->source;
+        $link = '/' . $this->type->output_dir . $this->source;
+
+        $link = str_replace('\\', '/', $link);
 
         return $link;
     }
@@ -186,10 +190,10 @@ class Page
     }
 
     public function getDate() {
-        if($this->date_string)
-            return $this->date_string;
+        if($this->date)
+            return date(self::$postDateFormat, $this->date);
         else
-            return '';
+            return $this->date_string;
     }
 
     // perform content conversion to html or just return $content

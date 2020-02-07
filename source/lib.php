@@ -24,6 +24,11 @@ function echoln($what) {
 }
 
 function copy_recursively($src, $dst) {
+    if(is_file($src)) {
+        copy($src, $dst);
+        return;
+    }
+
     $dir = opendir($src);
     @mkdir($dst);
 

@@ -53,6 +53,15 @@ class PageType
                     continue;
 
                 $path_info = pathinfo($file);
+
+                // no extension, ignore this file
+                if(!array_key_exists('extension', $path_info))
+                    continue;
+
+                // skip if it is a directory
+                if(is_dir($file))
+                    continue;
+
                 $ext = $path_info['extension'];
 
                 $fn = $source . $file;

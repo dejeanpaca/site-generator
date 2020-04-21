@@ -1,5 +1,5 @@
 {
-    "name": "site-generator",
+    "name": "dbx7/site-generator",
     "description": "simple static site generator",
     "require": {
         "league/commonmark": "^1.0"

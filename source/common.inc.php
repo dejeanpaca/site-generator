@@ -71,6 +71,7 @@ class Common
     }
 
     public static function Load() {
+        // load individual replacers
         foreach(self::$replacers as $replacer) {
             $replacer->Load();
         }

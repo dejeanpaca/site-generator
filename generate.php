@@ -18,9 +18,11 @@ const POST_ENTRY_TEMPLATE_FILE = Replacer::TEMPLATE_SOURCE . 'post_entry_templat
 
 writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 
+// check if we have a site folder
 if(!is_dir(Base::$source))
     fail('No site folder found. You can copy over existing `site-template` as `site` and work from there');
 
+/** simple mechanism to include a module script */
 function include_module(string $module) {
     $fn = __DIR__ . '/source/modules/' . $module . '.inc.php';
 
@@ -30,31 +32,8 @@ function include_module(string $module) {
     return $fn;
 }
 
-if(!is_file(Base::$source . 'generator.inc.php' ))
-    fail('No site definition file found (generator.inc.php).');
-
-writeln("Generating site ...");
-
-require_once __DIR__ . DIRECTORY_SEPARATOR . Base::$source . 'generator.inc.php';
-
-$structure = [Base::$target];
-$entry_template = "";
-
-foreach(PageType::$types as $type) {
-    $type->LoadTemplate();
-}
-
-Common::Load();
-
-foreach (Module::$modules as $module) {
-    $module->Load();
-}
-
-foreach(PageType::$types as $type) {
-    $type->Load();
-}
-
-function create_directory($target) {
+/** creates a directory by first removing the target directory, and recreating it */
+function recreate_directory($target) {
     if(is_dir($target))
         rmTree($target);
 
@@ -62,35 +41,24 @@ function create_directory($target) {
         fail('Could not create ' . $target . ' directory');
 }
 
-foreach ($structure as $folder) {
-    create_directory($folder);
+/** compare two properties */
+function compare($a, $b) {
+    if($a > $b)
+        return 1;
+    else if($a < $b)
+        return -1;
+    else
+        return 0;
 }
 
-foreach (PageType::$types as $type) {
-    if($type->output_dir) {
-        $target = Base::$target . $type->output_dir;
+/** POST PROCESSING CALLBACK METHODS */
 
-        if(!is_dir($target)) {
-            if(!mkdir($target))
-                fail('Could not generate ' . $target . ' directory in output');
-            else
-                writeln('Created ' . $target . ' directory in output');
-        }
-    }
-}
-
-foreach (Common::$copy_list as $what) {
-    $source = Base::$source . $what;
-
-    copy_recursively($source, Base::$target . $what);
-}
-
-$entry_template = load_file(Base::$source . POST_ENTRY_TEMPLATE_FILE);
-
+// load a given post (callback)
 function load_post($post, $post_index) {
     $post->Load();
 }
 
+/** generate a given post (callback) */
 function generate_post($post, $post_index) {
     global $entry_template;
 
@@ -117,18 +85,21 @@ function generate_post($post, $post_index) {
     }
 }
 
+/** write the post (callback) */
 function write_post($post, $post_index) {
     if(!$post->Write())
         fail('Could not write post: ' . $post->source);
 }
 
+/** call module OnPostDone() method on a post when done */
 function module_post_done($post, $post_index) {
     foreach (Module::$modules as $module) {
         $module->OnPostDone($post);
     }
 }
 
-function order_posts($callback) {
+/** go through posts in order with a callback that is passed the post and index*/
+function process_posts($callback) {
     $post = null;
     $post_index = 1;
 
@@ -141,17 +112,67 @@ function order_posts($callback) {
 
 }
 
-order_posts('load_post');
+/** GENERATOR */
 
-function compare($a, $b) {
-    if($a > $b)
-        return 1;
-    else if($a < $b)
-        return -1;
-    else
-        return 0;
+// we need a generator.inc.php script for the site
+if(!is_file(Base::$source . 'generator.inc.php' ))
+    fail('No site definition file found (generator.inc.php).');
+
+writeln("Generating site ...");
+
+require_once __DIR__ . DIRECTORY_SEPARATOR . Base::$source . 'generator.inc.php';
+
+// load entry template
+$entry_template = load_file(Base::$source . POST_ENTRY_TEMPLATE_FILE);
+
+// load page templates
+foreach(PageType::$types as $type) {
+    $type->LoadTemplate();
 }
 
+// load common resources
+Common::Load();
+
+// load modules
+foreach (Module::$modules as $module) {
+    $module->Load();
+}
+
+// load pages
+foreach(PageType::$types as $type) {
+    $type->Load();
+}
+
+// create target directory
+recreate_directory(Base::$target);
+
+// go through each page type and create target directory
+foreach (PageType::$types as $type) {
+    if($type->output_dir) {
+        $target = Base::$target . $type->output_dir;
+
+        if(!is_dir($target)) {
+            if(!mkdir($target))
+                fail('Could not generate ' . $target . ' directory in output');
+            else
+                writeln('Created ' . $target . ' directory in output');
+        }
+    }
+}
+
+// copy everything indicated in the copy list (site resources)
+foreach (Common::$copy_list as $what) {
+    $source = Base::$source . $what;
+
+    copy_recursively($source, Base::$target . $what);
+}
+
+/** POST PROCESSING */
+
+// load all posts
+process_posts('load_post');
+
+// sort pages by index and date
 usort(Pages::$list, function ($a, $b) {
     if($a->zIndex == $b->zIndex) {
         return compare($a->date, $b->date);
@@ -162,12 +183,17 @@ usort(Pages::$list, function ($a, $b) {
     return 0;
 });
 
-order_posts('generate_post');
-order_posts('module_post_done');
-order_posts('write_post');
+// generate all posts
+process_posts('generate_post');
+// call module OnPostDone() method on posts
+process_posts('module_post_done');
+// write out all posts
+process_posts('write_post');
 
+// finalize each module
 foreach (Module::$modules as $module) {
     $module->Done();
 }
 
+// we're done here
 writeln('Done');

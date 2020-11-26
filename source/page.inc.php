@@ -5,7 +5,9 @@ $pageType->zIndex = 1000;
 
 class Page
 {
+    /** page title */
     public $title = '';
+    /** page summary */
     public $summary = '';
 
     /** what category this page goes into */
@@ -16,7 +18,9 @@ class Page
     /** page time as string */
     public $date_string = null;
 
+    /** source file of the page (with relative path within the project) */
     public $source = '';
+    /** page content */
     public $content = '';
     /** generated content of the page */
     public $generated = '';
@@ -24,9 +28,11 @@ class Page
     /** zIndex for this page, to sort during generation */
     public $zIndex = 0;
 
-    /** @var PageType */
+    /** Page type object
+     * @var PageType */
     public $type = null;
 
+    /** format for the post date */
     public static $postDateFormat = 'Y-m-d';
 
     /** per page markers
@@ -41,29 +47,27 @@ class Page
         $this->setType($pageType);
     }
 
+    /** set page type and use defaults from page type */
     public function setType($type) {
         $this->type = $type;
         $this->zIndex = $type->zIndex;
     }
 
     public function getFn($base, $dir) {
-        $fn = $base . $dir . $this->source;
-
-        return $fn;
+        return $base . $dir . $this->source;
     }
 
+    /** get target file name */
     public function getTargetFn() {
         return $this->getFn(Base::$target, $this->type->output_dir);
     }
 
+    /** get relative url to the page */
     public function getLink() {
-        $link = '/' . $this->type->output_dir . $this->source;
-
-        $link = str_replace('\\', '/', $link);
-
-        return $link;
+        return str_replace('\\', '/', ('/' . $this->type->output_dir . $this->source));
     }
 
+    /** load file for this page */
     public function Load() {
         $fn = $this->getFn(Base::$source, $this->type->source_dir);
 
@@ -73,6 +77,7 @@ class Page
         return $this->content != null;
     }
 
+    /** read the header descriptor and strip it from the content */
     public function getDescriptor() {
         $start = strlen('<!--');
 
@@ -84,6 +89,7 @@ class Page
                 $descriptor = substr($this->content, $start, $pos - $start);
 
                 $lines = explode("\n", $descriptor);
+
                 foreach($lines as $line) {
                     $line = trim($line);
                     $kv = explode(': ', $line, 2);
@@ -123,6 +129,7 @@ class Page
         writeln('No or invalid descriptor in: ' . $this->type->source_dir . $this->source);
     }
 
+    /** inject values into the content (replace template strings with values) */
     public function Inject($string) {
         // page markers
         $string = $this->markers->Inject($string);
@@ -134,6 +141,7 @@ class Page
         return str_replace('__TITLE__', $this->title, $string);
     }
 
+    /** change extension to be html and return new file name */
     public function correctExtension($fn) {
         // check file extension to be html
 
@@ -149,6 +157,7 @@ class Page
         return $fn;
     }
 
+    /** generate the final html for this page */
     public function Generate() {
         if($this->content) {
             $page = substr($this->type->template, 0);
@@ -169,6 +178,7 @@ class Page
         }
     }
 
+    /** write page content to target file */
     public function Write($force = false) {
         if($this->generated) {
             $fn = $this->getTargetFn();
@@ -189,22 +199,24 @@ class Page
         }
     }
 
+    /** get date for this page */
     public function getDate($format = null) {
         if(!$format)
             $format = self::$postDateFormat;
 
-        if($this->date)
-            return date($format, $this->date);
-        else
-            return $this->date_string;
+        return $this->date ? date($format, $this->date) : $this->date_string;
     }
 
-    // perform content conversion to html or just return $content
+    /** perform content conversion to html or just return $content
+     * Virtual method which needs to be overriden.
+     */
     public function getContent() {
         return $this->content;
     }
 
-    // perform additional processing on this page (if any))
+    /** perform additional processing on this page (if any))
+     * Virtual method which needs to be overriden.
+    */
     public function process($page) {
         return $page;
     }

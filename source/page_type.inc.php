@@ -40,12 +40,15 @@ class PageType
 
     /** load all pages of this type */
     public function Load() {
-        $source = Base::$source . $this->source_dir;
+        $this->LoadPath('');
+    }
 
+    /** load all pages from a given path */
+    public function LoadFromPath($fullpath, $path) {
         $path_info = pathinfo($this->templateFile);
         $required_ext = $path_info['extension'];
 
-        $files = scandir($source);
+        $files = scandir($fullpath);
 
         if($files) {
             foreach($files as $file) {
@@ -64,7 +67,7 @@ class PageType
 
                 $ext = $path_info['extension'];
 
-                $fn = $source . $file;
+                $fn = $path . $file;
 
                 if($ext != $required_ext)
                     continue;
@@ -74,11 +77,32 @@ class PageType
                     continue;
 
                 $page = $this->InstancePage();
-                $page->source = $file;
+                $page->source = $path . $file;
+                $page->fullPath = $fullpath . $file;
 
                 Pages::add($page);
             }
         }
+    }
+
+    // load path recursively
+    public function LoadPath($path) {
+        $source = Base::$source . $this->source_dir;
+        $current = $source . $path;
+
+        $dir = opendir($current);
+        $this->LoadFromPath($current, $path);
+
+        while (false !== ($file = readdir($dir))) {
+            if (($file != '.') && ($file != '..')) {
+                $newPath = $path . $file;
+
+                if (is_dir($source . $newPath))
+                    $this->LoadPath($newPath . '/');
+            }
+        }
+
+        closedir($dir);
     }
 
     public function InstancePage() {

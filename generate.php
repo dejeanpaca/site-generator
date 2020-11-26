@@ -89,6 +89,22 @@ function module_post_done($post, $post_index) {
     }
 }
 
+/** create output directory for posts */
+function make_post_directories($post, $post_index) {
+    $path_info = pathinfo($post->getTargetFn());
+
+    // create directory if required
+    $dir = $path_info['dirname'];
+
+    if($dir != '.') {
+        // create directory if it doesn't already exists
+        if (!file_exists($dir)) {
+            writeln('Creating directory: ' . $dir);
+            mkdir($dir, 0755, true);
+        }
+    }
+}
+
 /** go through posts in order with a callback that is passed the post and index*/
 function process_posts($callback) {
     $post = null;
@@ -165,11 +181,10 @@ process_posts('load_post');
 
 // sort pages by index and date
 usort(Pages::$list, function ($a, $b) {
-    if($a->zIndex == $b->zIndex) {
+    if($a->zIndex == $b->zIndex)
         return compare($a->date, $b->date);
-    } else {
+    else
         return compare($a->zIndex, $b->zIndex);
-    }
 
     return 0;
 });
@@ -178,6 +193,8 @@ usort(Pages::$list, function ($a, $b) {
 process_posts('generate_post');
 // call module OnPostDone() method on posts
 process_posts('module_post_done');
+// make output directories for all posts
+process_posts('make_post_directories');
 // write out all posts
 process_posts('write_post');
 

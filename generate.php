@@ -143,15 +143,23 @@ function order_posts($callback) {
 
 order_posts('load_post');
 
+function compare($a, $b) {
+    if($a > $b)
+        return 1;
+    else if($a < $b)
+        return -1;
+    else
+        return 0;
+}
+
 usort(Pages::$list, function ($a, $b) {
     if($a->zIndex == $b->zIndex) {
-        if($a->date && $b->date)
-            return $a->date > $b->date;
-
-        return false;
+        return compare($a->date, $b->date);
     } else {
-        return $a->zIndex > $b->zIndex;
+        return compare($a->zIndex, $b->zIndex);
     }
+
+    return 0;
 });
 
 order_posts('generate_post');

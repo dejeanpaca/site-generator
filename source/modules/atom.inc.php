@@ -90,6 +90,7 @@ class AtomModule extends Module
         $feed = str_replace('__FEED_ENTRIES__', $entries, $feed);
 
         $updated_time = '';
+
         if($this->lastDate)
             $updated_time = date("c", $this->lastDate);
 

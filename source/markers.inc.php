@@ -14,10 +14,7 @@ class Markers
     }
 
     public function Get($marker) {
-        if(array_key_exists($marker, $this->list))
-            return $this->list[$marker];
-        else
-            return '';
+        return array_key_exists($marker, $this->list) ? $this->list[$marker] : '';
     }
 
     public function Inject($string) {

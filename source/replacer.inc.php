@@ -10,10 +10,8 @@ class Replacer
     public $file_path;
 
     public function Load() {
-        if($this->file_path)
-            $this->content = load_file($this->file_path);
-        else
-            $this->content = load_file(Base::$source . self::TEMPLATE_SOURCE . $this->file);
+        $path = $this->file_path ? $this->file_path : Base::$source . self::TEMPLATE_SOURCE . $this->file;
+        $this->content = load_file($path);
     }
 
     public function Inject($string) {

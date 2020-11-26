@@ -38,3 +38,12 @@ function write_file($fn, $contents, $fail = true) {
 
     return true;
 }
+
+/** creates a directory by first removing the target directory, and recreating it */
+function recreate_directory($target) {
+    if(is_dir($target))
+        rmTree($target);
+
+    if(!mkdir($target))
+        fail('Could not create ' . $target . ' directory');
+}

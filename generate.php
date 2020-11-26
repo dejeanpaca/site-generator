@@ -32,15 +32,6 @@ function include_module(string $module) {
     return $fn;
 }
 
-/** creates a directory by first removing the target directory, and recreating it */
-function recreate_directory($target) {
-    if(is_dir($target))
-        rmTree($target);
-
-    if(!mkdir($target))
-        fail('Could not create ' . $target . ' directory');
-}
-
 /** compare two properties */
 function compare($a, $b) {
     if($a > $b)

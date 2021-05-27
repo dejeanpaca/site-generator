@@ -11,6 +11,9 @@ class Common
     /** @var Markers */
     public static $markers = null;
 
+    // folder to copy static files directly into output directory
+    public static $static = 'static';
+
     /** Different types of categories
      * @var Category[] */
     public static $categories = [];

@@ -174,6 +174,10 @@ foreach (Common::$copy_list as $what) {
     copy_recursively($source, Base::$target . $what);
 }
 
+
+if(Common::$static)
+    copy_recursively(Base::$source . '\\' . Common::$static, Base::$target);
+
 /** POST PROCESSING */
 
 // load all posts

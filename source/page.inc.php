@@ -105,7 +105,11 @@ class Page
                         else if($key == '@date') {
                             $this->date_string = $value;
 
-                            $this->date = strtotime($this->date_string);
+                            $date = strtotime($this->date_string);
+                            if($date !== FALSE)
+                                $this->date = $date;
+                            else
+                                writeln('Invalid date: ' . $this->date_string . ' in ' . $this->getFn());
                         } else if($key == '@marker') {
                             $marker_kv = explode(' ', $kv[1], 2);
 

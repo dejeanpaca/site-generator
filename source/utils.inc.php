@@ -44,6 +44,6 @@ function recreate_directory($target) {
     if(is_dir($target))
         rmTree($target);
 
-    if(!mkdir($target))
+    if(!mkdir($target, recursive: true))
         fail('Could not create ' . $target . ' directory');
 }

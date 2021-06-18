@@ -159,7 +159,7 @@ foreach (PageType::$types as $type) {
         $target = Base::$target . $type->output_dir;
 
         if(!is_dir($target)) {
-            if(!mkdir($target))
+            if(!mkdir($target, recursive: true))
                 fail('Could not generate ' . $target . ' directory in output');
             else
                 writeln('Created ' . $target . ' directory in output');

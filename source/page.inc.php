@@ -57,6 +57,10 @@ class Page
         return $base . $dir . $this->source;
     }
 
+    public function getSourceFn() {
+        return $this->getFn(Base::$source, $this->type->source_dir);
+    }
+
     /** get target file name */
     public function getTargetFn() {
         return $this->getFn(Base::$target, $this->type->output_dir);
@@ -69,7 +73,7 @@ class Page
 
     /** load file for this page */
     public function Load() {
-        $fn = $this->getFn(Base::$source, $this->type->source_dir);
+        $fn = $this->getSourceFn();
 
         $this->content = load_file($fn, false);
         $this->getDescriptor();
@@ -109,7 +113,7 @@ class Page
                             if($date !== FALSE)
                                 $this->date = $date;
                             else
-                                writeln('Invalid date: ' . $this->date_string . ' in ' . $this->getFn());
+                                writeln('Invalid date: ' . $this->date_string . ' in ' . $this->getSourceFn());
                         } else if($key == '@marker') {
                             $marker_kv = explode(' ', $kv[1], 2);
 

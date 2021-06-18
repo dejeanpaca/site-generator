@@ -69,11 +69,21 @@ function generate_post($post, $post_index) {
 
         if($cat)
             $cat->entries = $entry . $cat->entries;
+
+        writeln('Entry added: ' . $post->getSourceFn() . ' to category ' . $cat->name);
     }
 
     foreach (Module::$modules as $module) {
         $module->OnPost($post);
     }
+}
+
+/** generate post in another pass (callback) */
+function post_second_pass($post, $post_index) {
+    global $entry_template;
+
+    $post->Generate();
+    writeln('Second pass: (' . $post_index . ') ' . $post->source);
 }
 
 /** write the post (callback) */
@@ -195,6 +205,8 @@ usort(Pages::$list, function ($a, $b) {
 
 // generate all posts
 process_posts('generate_post');
+// second pass
+process_posts('post_second_pass');
 // call module OnPostDone() method on posts
 process_posts('module_post_done');
 // make output directories for all posts

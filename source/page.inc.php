@@ -35,6 +35,9 @@ class Page
     /** format for the post date */
     public static $postDateFormat = 'Y-m-d';
 
+    /** is the page in a draft state (if true it is not written out) */
+    public static $draft = false;
+
     /** per page markers
      * @var Markers
     */
@@ -106,6 +109,8 @@ class Page
                             $this->title = $value;
                         else if($key == '@summary')
                             $this->summary = $value;
+                        else if($key == '@draft')
+                            $this->draft = true;
                         else if($key == '@date') {
                             $this->date_string = $value;
 

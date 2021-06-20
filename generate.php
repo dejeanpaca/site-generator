@@ -88,8 +88,10 @@ function post_second_pass($post, $post_index) {
 
 /** write the post (callback) */
 function write_post($post, $post_index) {
-    if(!$post->Write())
-        fail('Could not write post: ' . $post->source);
+    if(!$post->draft) {
+        if(!$post->Write())
+            fail('Could not write post: ' . $post->source);
+    }
 }
 
 /** call module OnPostDone() method on a post when done */

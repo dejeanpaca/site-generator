@@ -109,8 +109,6 @@ class Page
                             $this->title = $value;
                         else if($key == '@summary')
                             $this->summary = $value;
-                        else if($key == '@draft')
-                            $this->draft = true;
                         else if($key == '@date') {
                             $this->date_string = $value;
 
@@ -130,6 +128,11 @@ class Page
 
                             $this->markers->Add($mkey, $mvalue);
                         }
+                    } else if(count($kv) == 1) {
+                        $key = $kv[0];
+
+                        if($key == '@draft')
+                            $this->draft = true;
                     }
                 }
 

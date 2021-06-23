@@ -20,6 +20,9 @@ class TidyModule extends Module
 
     public function Done() {
         foreach(Pages::$list as $page) {
+            if($page->draft)
+                continue;
+
             $fn = $page->getTargetFn();
 
             writeln('Tidy: ' . $fn);

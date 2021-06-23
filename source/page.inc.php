@@ -32,11 +32,11 @@ class Page
      * @var PageType */
     public $type = null;
 
+    /** is the page in a draft state (if true it is not written out) */
+    public $draft = false;
+
     /** format for the post date */
     public static $postDateFormat = 'Y-m-d';
-
-    /** is the page in a draft state (if true it is not written out) */
-    public static $draft = false;
 
     /** per page markers
      * @var Markers

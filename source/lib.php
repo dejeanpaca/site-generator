@@ -24,10 +24,15 @@ function echoln($what) {
 }
 
 function copy_recursively($src, $dst) {
+    // check if source is file
     if(is_file($src)) {
         copy($src, $dst);
         return;
     }
+
+    // check if source exists
+    if(!file_exists($src))
+        return;
 
     $dir = opendir($src);
     @mkdir($dst);

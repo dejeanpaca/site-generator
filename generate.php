@@ -22,6 +22,19 @@ writeln("Platform: " . PHP_OS . ", PHP v" . phpversion());
 if(!is_dir(Base::$source))
     fail('No site folder found. You can copy over existing `site-template` as `site` and work from there');
 
+function parse_arguments() {
+    global $argv, $argc;
+    
+    foreach($argv as $v) {
+        if($v == '-draft') {
+            Common::$draftMode = true;
+            writeln('> Draft mode');
+        }
+    }
+}
+
+parse_arguments();
+
 /** simple mechanism to include a module script */
 function include_module(string $module) {
     $fn = __DIR__ . '/source/modules/' . $module . '.inc.php';
@@ -53,7 +66,7 @@ function load_post($post, $post_index) {
 function generate_post($post, $post_index) {
     global $entry_template;
 
-    if($post->draft)
+    if($post->isDraft())
         return;
 
     $post->Generate();
@@ -85,7 +98,7 @@ function generate_post($post, $post_index) {
 function post_second_pass($post, $post_index) {
     global $entry_template;
 
-    if($post->draft)
+    if($post->isDraft())
         return;
 
     $post->Generate();
@@ -94,7 +107,7 @@ function post_second_pass($post, $post_index) {
 
 /** write the post (callback) */
 function write_post($post, $post_index) {
-    if($post->draft)
+    if($post->isDraft())
         return;
     
     if(!$post->Write())
@@ -103,7 +116,7 @@ function write_post($post, $post_index) {
 
 /** call module OnPostDone() method on a post when done */
 function module_post_done($post, $post_index) {
-    if($post->draft)
+    if($post->isDraft())
         return;
 
     foreach (Module::$modules as $module) {
@@ -113,7 +126,7 @@ function module_post_done($post, $post_index) {
 
 /** create output directory for posts */
 function make_post_directories($post, $post_index) {
-    if($post->draft)
+    if($post->isDraft())
         return;
 
     $path_info = pathinfo($post->getTargetFn());

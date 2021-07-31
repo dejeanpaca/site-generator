@@ -14,6 +14,9 @@ class Common
     // folder to copy static files directly into output directory
     public static $static = 'static';
 
+    // are we in draft mode (also generate draft pages)
+    public static $draftMode = false;
+
     /** Different types of categories
      * @var Category[] */
     public static $categories = [];

@@ -50,6 +50,11 @@ class Page
         $this->setType($pageType);
     }
 
+    /** is this page a draft */
+    public function isDraft() {
+        return $this->draft && !Common::$draftMode;
+    }
+
     /** set page type and use defaults from page type */
     public function setType($type) {
         $this->type = $type;

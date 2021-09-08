@@ -93,7 +93,10 @@ class PageType
         $dir = opendir($current);
         $this->LoadFromPath($current, $path);
 
-        while (false !== ($file = readdir($dir))) {
+        if($dir === false)
+            return;
+
+        while ($file = readdir($dir)) {
             if (($file != '.') && ($file != '..')) {
                 $newPath = $path . $file;
 

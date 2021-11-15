@@ -35,6 +35,9 @@ class Page
     /** is the page in a draft state (if true it is not written out) */
     public $draft = false;
 
+    /** should this page be published in a list (not part of a category) */
+    public $list = true;
+
     /** format for the post date */
     public static $postDateFormat = 'Y-m-d';
 
@@ -106,8 +109,14 @@ class Page
                     $line = trim($line);
                     $kv = explode(': ', $line, 2);
 
-                    if(count($kv) == 2) {
-                        $key = strtolower(trim($kv[0]));
+                    $count = count($kv);
+
+                    if($count == 0)
+                        continue;
+
+                    $key = strtolower(trim($kv[0]));
+
+                    if($count == 2) {
                         $value = trim($kv[1]);
 
                         if($key == '@title')
@@ -134,7 +143,8 @@ class Page
                             $this->markers->Add($mkey, $mvalue);
                         }
                     } else if(count($kv) == 1) {
-                        $key = $kv[0];
+                        if($key == '@nolist')
+                            $this->list = false;
 
                         if($key == '@draft')
                             $this->draft = true;

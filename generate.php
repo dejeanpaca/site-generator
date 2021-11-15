@@ -24,7 +24,7 @@ if(!is_dir(Base::$source))
 
 function parse_arguments() {
     global $argv, $argc;
-    
+
     foreach($argv as $v) {
         if($v == '-draft') {
             Common::$draftMode = true;
@@ -72,7 +72,7 @@ function generate_post($post, $post_index) {
     $post->Generate();
     writeln('Generated: (' . $post_index . ') ' . $post->source);
 
-    if($post->type->category) {
+    if($post->type->category && $post->list) {
         $entry = substr($entry_template, 0);
 
         $link = $post->correctExtension($post->getLink());
@@ -109,7 +109,7 @@ function post_second_pass($post, $post_index) {
 function write_post($post, $post_index) {
     if($post->isDraft())
         return;
-    
+
     if(!$post->Write())
         fail('Could not write post: ' . $post->source);
 }

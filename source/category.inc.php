@@ -3,7 +3,7 @@
 class Category
 {
     public $name;
-    public $entries;
+    public $entries = '';
     public $marker;
 
     public function Inject($string) {

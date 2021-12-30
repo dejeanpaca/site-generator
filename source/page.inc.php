@@ -16,7 +16,7 @@ class Page
     /** page time as a timestamp */
     public $date = 0;
     /** page time as string */
-    public $date_string = null;
+    public $date_string = '';
 
     /** source file of the page (with relative path within the project) */
     public $source = '';

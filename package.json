@@ -5,7 +5,7 @@
   "main": "index.js",
   "devDependencies": {
     "http-server": "^14.0.0",
-    "jshint": "^2.13.1"
+    "jshint": "^2.13.2"
   },
   "scripts": {
     "open": "http-server output -a localhost -p 1234"

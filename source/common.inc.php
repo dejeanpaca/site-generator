@@ -7,6 +7,7 @@ require_once __DIR__ . '/replacer.inc.php';
 class Common
 {
     public static $copy_list = [];
+    public static $create_folders = [];
     public static $replacers = [];
     /** @var Markers */
     public static $markers = null;

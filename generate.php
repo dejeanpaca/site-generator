@@ -212,6 +212,13 @@ foreach (Common::$copy_list as $what) {
     copy_recursively($source, Base::$target . $what);
 }
 
+// create folders specified (site resources)
+foreach (Common::$create_folders as $what) {
+    $source = Base::$source . $what;
+
+    recreate_directory($source, Base::$target . $what);
+}
+
 
 if(Common::$static)
     copy_recursively(Base::$source . '\\' . Common::$static, Base::$target);

@@ -1,7 +1,7 @@
 <?php
 
 $pageType = new PageType();
-$pageType->zIndex = 1000;
+$pageType->zIndex = 0;
 
 class Page
 {
@@ -123,10 +123,9 @@ class Page
 
                         if($key == '@title')
                             $this->title = $value;
-                        else if($key == '@pagetitle') {
+                        else if($key == '@pagetitle')
                             $this->pageTitle = $value;
-                            print('SET PAGE TITLE: ' . $this->pageTitle);
-                        } else if($key == '@summary')
+                        else if($key == '@summary')
                             $this->summary = $value;
                         else if($key == '@date') {
                             $this->date_string = $value;
@@ -146,6 +145,9 @@ class Page
                                 $mvalue = $marker_kv[1];
 
                             $this->markers->Add($mkey, $mvalue);
+                        } else if($key == '@zindex' || $key == '@z-index') {
+                            $zIndex = (int) $value;
+                            $this->zIndex = $zIndex;
                         }
                     } else if(count($kv) == 1) {
                         if($key == '@nolist')

@@ -3,7 +3,7 @@
 $indexType = new IndexPageType();
 $indexType->templateFile = 'index_template.html';
 $indexType->SetDirectory('');
-$indexType->zIndex = 10000;
+$indexType->zIndex = 100000;
 
 class IndexPageType extends PageType
 {

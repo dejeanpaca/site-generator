@@ -81,6 +81,11 @@ function generate_post($post, $post_index) {
         $entry = str_replace('__HREF__', $link, $entry);
         $entry = str_replace('__TITLE__', $post->title, $entry);
 
+        if($post->pageTitle)
+            $entry = str_replace('__PAGE_TITLE__', $post->pageTitle, $entry);
+        else
+            $entry = str_replace('__PAGE_TITLE__', $post->title, $entry);
+
         $cat = Common::FindCategory($post->type->category);
 
         if($cat)

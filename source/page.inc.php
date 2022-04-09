@@ -5,8 +5,10 @@ $pageType->zIndex = 1000;
 
 class Page
 {
-    /** page title */
+    /** post title */
     public $title = '';
+    /** page (document) title (if empty title is used) */
+    public $pageTitle = '';
     /** page summary */
     public $summary = '';
 
@@ -121,7 +123,10 @@ class Page
 
                         if($key == '@title')
                             $this->title = $value;
-                        else if($key == '@summary')
+                        else if($key == '@pagetitle') {
+                            $this->pageTitle = $value;
+                            print('SET PAGE TITLE: ' . $this->pageTitle);
+                        } else if($key == '@summary')
                             $this->summary = $value;
                         else if($key == '@date') {
                             $this->date_string = $value;
@@ -169,7 +174,14 @@ class Page
 
         $string = str_replace('__DATE__', $this->getDate(), $string);
 
-        return str_replace('__TITLE__', $this->title, $string);
+        $string = str_replace('__TITLE__', $this->title, $string);
+
+        if($this->pageTitle)
+            $string = str_replace('__PAGE_TITLE__', $this->pageTitle, $string);
+        else
+            $string = str_replace('__PAGE_TITLE__', $this->title, $string);
+
+        return $string;
     }
 
     /** change extension to be html and return new file name */

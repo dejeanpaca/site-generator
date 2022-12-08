@@ -90,10 +90,7 @@ class PageType
         $source = Base::$source . $this->source_dir;
         $current = $source . $path;
 
-        // skip if directory does not exist
-        if(!file_exists($current) || !is_dir($current)) return;
-
-        $dir = opendir($current);
+        $dir = @opendir($current);
 
         if($dir === false) return;
 

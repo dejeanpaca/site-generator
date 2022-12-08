@@ -90,11 +90,14 @@ class PageType
         $source = Base::$source . $this->source_dir;
         $current = $source . $path;
 
-        $dir = opendir($current);
-        $this->LoadFromPath($current, $path);
+        // skip if directory does not exist
+        if(!file_exists($current) || !is_dir($current)) return;
 
-        if($dir === false)
-            return;
+        $dir = opendir($current);
+
+        if($dir === false) return;
+
+        $this->LoadFromPath($current, $path);
 
         while ($file = readdir($dir)) {
             if (($file != '.') && ($file != '..')) {

@@ -43,6 +43,9 @@ class Page
     /** format for the post date */
     public static $postDateFormat = 'Y-m-d';
 
+    /** full path to the page */
+    public $fullPath = '';
+
     /** per page markers
      * @var Markers
     */

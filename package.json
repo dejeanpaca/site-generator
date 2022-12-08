@@ -4,8 +4,8 @@
   "description": "Minimalistic static site generator",
   "main": "index.js",
   "devDependencies": {
-    "http-server": "^14.0.0",
-    "jshint": "^2.13.2"
+    "http-server": "^14.1.0",
+    "jshint": "^2.13.4"
   },
   "scripts": {
     "open": "http-server output -a localhost -p 1234"
